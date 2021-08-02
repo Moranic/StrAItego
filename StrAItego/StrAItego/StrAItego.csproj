@@ -1,0 +1,368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\SciSharp.TensorFlow.Redist-Windows-GPU.2.3.1\build\netstandard2.0\SciSharp.TensorFlow.Redist-Windows-GPU.props" Condition="Exists('packages\SciSharp.TensorFlow.Redist-Windows-GPU.2.3.1\build\netstandard2.0\SciSharp.TensorFlow.Redist-Windows-GPU.props')" />
+  <Import Project="packages\MethodBoundaryAspect.Fody.2.0.138\build\MethodBoundaryAspect.Fody.props" Condition="Exists('packages\MethodBoundaryAspect.Fody.2.0.138\build\MethodBoundaryAspect.Fody.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C32E19CF-E100-4B69-B62F-111F129157B5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>StrAItego</RootNamespace>
+    <AssemblyName>StrAItego</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\program.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>StrAItego.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Emgu.TF.Lite.Models, Version=2.4.1.1202, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Emgu.TF.Lite.Models.2.4.1.1202\lib\netstandard2.0\Emgu.TF.Lite.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.TF.Lite.Netstandard, Version=2.4.1.1202, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Emgu.TF.Lite.2.4.1.1202\lib\netstandard2.0\Emgu.TF.Lite.Netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.11.3.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>packages\Google.Protobuf.3.11.3\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="HDF.PInvoke.1.10, Version=1.10.500.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\HDF.PInvoke.1.10.1.10.500\lib\netstandard2.0\HDF.PInvoke.1.10.dll</HintPath>
+    </Reference>
+    <Reference Include="HDF5CSharp, Version=1.1.10.500, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SciSharp.Keras.HDF5.1.1.10.500\lib\netstandard2.0\HDF5CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.1.9, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>packages\SharpZipLib.1.3.1\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MethodBoundaryAspect, Version=2.0.138.0, Culture=neutral, PublicKeyToken=296379d5065c9d61, processorArchitecture=MSIL">
+      <HintPath>packages\MethodBoundaryAspect.Fody.2.0.138\lib\net452\MethodBoundaryAspect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.5.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=5.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.5.0.1\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Extensions.DependencyInjection.Abstractions.5.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NumSharp.Lite, Version=0.1.12.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\NumSharp.Lite.0.1.12\lib\netstandard2.0\NumSharp.Lite.dll</HintPath>
+    </Reference>
+    <Reference Include="Protobuf.Text, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Protobuf.Text.0.5.0\lib\netstandard2.0\Protobuf.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="Python.Runtime, Version=2.5.1.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>packages\pythonnet_netstandard_py38_win.2.5.1\lib\netstandard2.0\Python.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.2.5.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Console, Version=3.1.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>packages\Serilog.Sinks.Console.3.1.1\lib\net45\Serilog.Sinks.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Drawing.Common.5.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Resources.Extensions, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Resources.Extensions.5.0.0\lib\net461\System.Resources.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TensorFlow.Hub, Version=0.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\SciSharp.TensorFlowHub.0.1.5\lib\netstandard2.0\TensorFlow.Hub.dll</HintPath>
+    </Reference>
+    <Reference Include="Tensorflow.Keras, Version=0.4.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\TensorFlow.Keras.0.4.0\lib\netstandard2.0\Tensorflow.Keras.dll</HintPath>
+    </Reference>
+    <Reference Include="TensorFlow.NET, Version=0.33.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>packages\TensorFlow.NET.0.33.0\lib\netstandard2.0\TensorFlow.NET.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Game\Agents\HumanAgent\HumanAgent.cs" />
+    <Compile Include="Game\Agents\HumanAgent\HumanAgentParameters.cs" />
+    <Compile Include="Game\Agents\IAgent.cs" />
+    <Compile Include="Game\Agents\IAgentParameters.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\DirectRankEstimator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\DumbDatabaseEstimator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\IBoardEstimator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\NaiveNeuralNetworkEstimator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\OmniscientEstimator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\RandomEstimator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\CountInvincibleUnitsEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\DoubleNNNUCEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\FlatNUCEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\IBoardEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\JeroenMetsEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\NaiveExplorerEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\NaiveUnitCountEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\NaiveUnitValueCountEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\DoubleNNEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\NNEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\NUCWFEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\RandomRolloutEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\TieredUnitCountEvaluator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\eGreedy\eGreedyAgent.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\eGreedy\eGreedyAgentParameters.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\MCTSAgent.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\MCTSAgentParameters.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\NN\NNAgent.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\NN\NNAgentParameters.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\pUCT\pUCTAgent.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\pUCT\pUCTAgentParameters.cs" />
+    <Compile Include="Game\TFLite\TFLiteModel.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\UCB\UCBAgent.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\UCB\UCBAgentParameters.cs" />
+    <Compile Include="Game\Agents\NaiveNNAgent\NaiveNNAgent.cs" />
+    <Compile Include="Game\Agents\NaiveNNAgent\NaiveNNAgentParameters.cs" />
+    <Compile Include="Game\Agents\PeterNLewisAgent\PeterNLewisAgent.cs" />
+    <Compile Include="Game\Agents\PeterNLewisAgent\PeterNLewisAgentParameters.cs" />
+    <Compile Include="Game\Agents\RandomAgent\RandomAgent.cs" />
+    <Compile Include="Game\Agents\RandomAgent\RandomAgentParameters.cs" />
+    <Compile Include="Game\Agents\RandomAgent\RandomAvoidDefeats\RandomAvoidsUnitLossAgent.cs" />
+    <Compile Include="Game\Agents\RandomAgent\RandomAvoidDefeats\RandomAvoidsUnitLossAgentParameters.cs" />
+    <Compile Include="Game\Agents\SetupProviders\GreedyNeuralNetworkProvider.cs" />
+    <Compile Include="Game\Agents\SetupProviders\NaiveNeuralNetworkProvider.cs" />
+    <Compile Include="Game\Agents\SetupProviders\VincentdeBoerSetup.cs" />
+    <Compile Include="Game\Agents\SetupProviders\AccoladeSetup.cs" />
+    <Compile Include="Game\Agents\SetupProviders\GravonSetups\GravonData.cs" />
+    <Compile Include="Game\Agents\SetupProviders\GravonSetups\GravonSetup.cs" />
+    <Compile Include="Game\Agents\SetupProviders\ISetupProvider.cs" />
+    <Compile Include="Game\Agents\SetupProviders\PeterNLewisSetup.cs" />
+    <Compile Include="Game\Agents\SetupProviders\RandomSetup.cs" />
+    <Compile Include="Game\Data.cs" />
+    <Compile Include="Game\Board.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\GameLogger.cs" />
+    <Compile Include="Game\Move.cs" />
+    <Compile Include="Game\Moves.cs" />
+    <Compile Include="Game\TensorflowManager.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="LogWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogWindow.Designer.cs">
+      <DependentUpon>LogWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ResultsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ResultsWindow.Designer.cs">
+      <DependentUpon>ResultsWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StrAItego.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StrAItego.Designer.cs">
+      <DependentUpon>StrAItego.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Game\TFLite\TFLiteManager.cs" />
+    <Compile Include="UI\Board.cs" />
+    <Compile Include="UI\LogBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\RunResults.cs" />
+    <Compile Include="UI\Tile.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogWindow.resx">
+      <DependentUpon>LogWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResultsWindow.resx">
+      <DependentUpon>ResultsWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StrAItego.resx">
+      <DependentUpon>StrAItego.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\program.ico" />
+    <Content Include="Resources\map.png" />
+    <Content Include="tfliteextern.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\Neural Networks\DirectRankEstimator1.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Neural Networks\HumanMovePredictor.bnn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Neural Networks\HumanMovePredictor2.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Neural Networks\RandomOrHumanSetup2.bnn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Neural Networks\RandomOrHumanSetup3.bnn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Neural Networks\RandomOrHumanSetup4.bnn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Neural Networks\RandomOrHumanSetup5.bnn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Neural Networks\RandomOrHumanSetup8.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Neural Networks\StateEvaluator.tflite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Units\bluebomb.png" />
+    <None Include="Resources\Units\bluecaptain.png" />
+    <None Include="Resources\Units\bluecolonel.png" />
+    <None Include="Resources\Units\blueflag.png" />
+    <None Include="Resources\Units\bluegeneral.png" />
+    <None Include="Resources\Units\bluelieutenant.png" />
+    <None Include="Resources\Units\bluemajor.png" />
+    <None Include="Resources\Units\bluemarshal.png" />
+    <None Include="Resources\Units\blueminer.png" />
+    <None Include="Resources\Units\bluescout.png" />
+    <None Include="Resources\Units\bluesergeant.png" />
+    <None Include="Resources\Units\bluespy.png" />
+    <None Include="Resources\Units\blueunknown.png" />
+    <None Include="Resources\Units\redbomb.png" />
+    <None Include="Resources\Units\redcaptain.png" />
+    <None Include="Resources\Units\redcolonel.png" />
+    <None Include="Resources\Units\redflag.png" />
+    <None Include="Resources\Units\redgeneral.png" />
+    <None Include="Resources\Units\redlieutenant.png" />
+    <None Include="Resources\Units\redmajor.png" />
+    <None Include="Resources\Units\redmarshal.png" />
+    <None Include="Resources\Units\redminer.png" />
+    <None Include="Resources\Units\redscout.png" />
+    <None Include="Resources\Units\redsergeant.png" />
+    <None Include="Resources\Units\redspy.png" />
+    <None Include="Resources\Units\redunknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NeuralNetworkTrainer\NeuralNetworkTrainer.csproj">
+      <Project>{d0279e85-b983-4458-9510-051574565046}</Project>
+      <Name>NeuralNetworkTrainer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Fody.6.0.5\build\Fody.targets" Condition="Exists('packages\Fody.6.0.5\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Fody.6.0.5\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.6.0.5\build\Fody.targets'))" />
+    <Error Condition="!Exists('packages\MethodBoundaryAspect.Fody.2.0.138\build\MethodBoundaryAspect.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MethodBoundaryAspect.Fody.2.0.138\build\MethodBoundaryAspect.Fody.props'))" />
+    <Error Condition="!Exists('packages\System.Resources.Extensions.5.0.0\build\net461\System.Resources.Extensions.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\System.Resources.Extensions.5.0.0\build\net461\System.Resources.Extensions.targets'))" />
+    <Error Condition="!Exists('packages\SciSharp.TensorFlow.Redist-Windows-GPU.2.3.1\build\netstandard2.0\SciSharp.TensorFlow.Redist-Windows-GPU.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SciSharp.TensorFlow.Redist-Windows-GPU.2.3.1\build\netstandard2.0\SciSharp.TensorFlow.Redist-Windows-GPU.props'))" />
+  </Target>
+  <Import Project="packages\System.Resources.Extensions.5.0.0\build\net461\System.Resources.Extensions.targets" Condition="Exists('packages\System.Resources.Extensions.5.0.0\build\net461\System.Resources.Extensions.targets')" />
+</Project>
