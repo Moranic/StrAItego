@@ -8,9 +8,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.UCB
         float c;
         float[] logLookupTable;
 
-        public UCBAgent() : base() {
-            name = "UCB Agent";
-        }
+        public UCBAgent() : base("UCB Agent") { }
 
         public override IAgentParameters GetParameters() {
             return new UCBAgentParameters();

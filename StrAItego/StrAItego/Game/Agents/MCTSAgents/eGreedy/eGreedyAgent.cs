@@ -5,9 +5,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.eGreedy
     class eGreedyAgent : MCTSAgent
     {
         float e;
-        public eGreedyAgent() {
-            name = "eGreedy Agent";
-        }
+        public eGreedyAgent() : base("eGreedy Agent") { }
 
         public override IAgentParameters GetParameters() {
             return new eGreedyAgentParameters();

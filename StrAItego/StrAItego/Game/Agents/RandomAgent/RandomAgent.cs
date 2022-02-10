@@ -4,49 +4,43 @@ using StrAItego.Game.Agents.SetupProviders;
 
 namespace StrAItego.Game.Agents.RandomAgent
 {
-    public class RandomAgent : IAgent
+    public class RandomAgent : BaseAgent
     {
         protected Random r;
-        protected string name = "Random Agent";
         ISetupProvider setupProvider;
-        public RandomAgent() {
-        }
 
-        public RandomAgent(int seed) {
+        public RandomAgent() : base("Random Agent") { }
+
+        public RandomAgent(string agentName = "Random Agent") : base(agentName) { }
+
+        public RandomAgent(int seed, string agentName = "Random Agent") : base(agentName)
+        {
             r = new Random(seed);
         }
 
-        public virtual Move? GetMove(Board board, GameLogger gameLogger) {
+        public override Move? GetMove(Board board, GameLogger gameLogger) {
             List<Move> moves = board.GetValidMoves(Team.Red);
             if (moves.Count == 0)
                 return null;
             return moves[r.Next(moves.Count)];
         }
 
-        public virtual IAgentParameters GetParameters() {
+        public override IAgentParameters GetParameters() {
             return new RandomAgentParameters();
         }
 
-        public virtual Rank[] GetSetup(Board board) {
+        public override Rank[] GetSetup(Board board) {
             return setupProvider.GetSetup(r);
         }
 
-        public bool IsAI() {
-            return true;
-        }
-
-        public virtual void SetParameters(IAgentParameters agentParameters) {
+        public override void SetParameters(IAgentParameters agentParameters) {
             RandomAgentParameters parameters = agentParameters as RandomAgentParameters;
             r = new Random(parameters.GetSeed());
             name = parameters.ToString();
             setupProvider = parameters.GetSetupProvider;
         }
 
-        public override string ToString() {
-            return name;
-        }
-
-        public virtual void Dispose() {
+        public override void Dispose() {
             r = null;
             setupProvider?.Dispose();
         }

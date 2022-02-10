@@ -5,9 +5,7 @@ namespace StrAItego.Game.Agents.RandomAgent.RandomAvoidDefeats
 {
     class RandomAvoidsUnitLossAgent : RandomAgent
     {
-        public RandomAvoidsUnitLossAgent() {
-            name = "Random (Avoids Attacker Loss) Agent";
-        }
+        public RandomAvoidsUnitLossAgent() : base("Random (Avoids Attacker Loss) Agent") { }
         public override Move? GetMove(Board board, GameLogger gameLogger) {
             List<Move> moves = board.GetValidMoves(Team.Red);
             if (moves.Count == 0)

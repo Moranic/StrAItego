@@ -10,9 +10,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.pUCT
         float[] logLookupTable;
         float[] rootLookupTable;
 
-        public pUCTAgent() : base() {
-            name = "pUCT Agent";
-        }
+        public pUCTAgent() : base("pUCT Agent") { }
 
         protected override Move SelectMove(Node n) {
             List<Move> moves = n.GetMoves();

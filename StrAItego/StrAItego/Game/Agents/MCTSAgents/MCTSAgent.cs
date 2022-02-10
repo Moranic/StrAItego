@@ -22,9 +22,7 @@ namespace StrAItego.Game.Agents.MCTSAgents
         protected Type nodeImplementation = typeof(Node);
 
 
-        public MCTSAgent() : base() {
-            name = "MCTS Agent";
-        }
+        public MCTSAgent(string agentName = "MCTS Agent") : base(agentName) { }
 
         public override Move? GetMove(Board board, GameLogger gameLogger) {
             if (gameLogger != null)

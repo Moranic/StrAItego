@@ -9,9 +9,7 @@ namespace StrAItego.Game.Agents.NaiveNNAgent
         float[] binBoard = new float[3312];
         TFLiteModel model;
 
-        public NaiveNNAgent() : base() {
-            name = "Naive NN. Agent";
-        }
+        public NaiveNNAgent() : base("Naive NN. Agent") { }
 
         public override void Dispose() {
             base.Dispose();

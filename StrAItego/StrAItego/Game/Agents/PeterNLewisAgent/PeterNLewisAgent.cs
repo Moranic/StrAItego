@@ -80,9 +80,7 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
         Queue<uint> CRC = new Queue<uint>();
         string moveReason = "";
 
-        public PeterNLewisAgent() : base() {
-            name = "Peter N. Lewis Agent";
-        }
+        public PeterNLewisAgent() : base("Peter N. Lewis Agent") { }
 
         public override Move? GetMove(Board board, GameLogger gameLogger) {
             Move? m = FigureOutMove(board);
@@ -548,10 +546,6 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
             base.SetParameters(agentParameters);
             PeterNLewisAgentParameters parameters = (PeterNLewisAgentParameters)agentParameters;
             name = parameters.ToString();
-        }
-
-        public override string ToString() {
-            return name;
         }
 
         public override void Dispose() {

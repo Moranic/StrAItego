@@ -163,6 +163,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Agents\BaseAgent.cs" />
     <Compile Include="Game\Agents\HumanAgent\HumanAgent.cs" />
     <Compile Include="Game\Agents\HumanAgent\HumanAgentParameters.cs" />
     <Compile Include="Game\Agents\IAgent.cs" />

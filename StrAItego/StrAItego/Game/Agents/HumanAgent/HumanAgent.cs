@@ -7,7 +7,7 @@ using StrAItego.UI;
 
 namespace StrAItego.Game.Agents.HumanAgent
 {
-    public class HumanAgent : IAgent
+    public class HumanAgent : BaseAgent
     {
         Square From { get; set; }
         Square To { get; set; }
@@ -16,9 +16,10 @@ namespace StrAItego.Game.Agents.HumanAgent
         Team team;
         UI.Board UIboard;
         bool setupDone;
-        string name = "Human Agent";
+        
+        public HumanAgent() : base("Human Agent") { }
 
-        public Move? GetMove(Board board, GameLogger gameLogger) {
+        public override Move? GetMove(Board board, GameLogger gameLogger) {
             if (team == Team.Blue)
                 board.Invert();
             From = Square.None;
@@ -46,7 +47,7 @@ namespace StrAItego.Game.Agents.HumanAgent
             To = e.To;
         }
 
-        public Rank[] GetSetup(Board board) {
+        public override Rank[] GetSetup(Board board) {
             Rank[] units = {
             Rank.Bomb, Rank.Bomb, Rank.Bomb, Rank.Bomb, Rank.Bomb, Rank.Bomb,
             Rank.Marshal,
@@ -114,15 +115,11 @@ namespace StrAItego.Game.Agents.HumanAgent
             waitResetEvent.Set();
         }
 
-        public override string ToString() {
-            return name;
-        }
-
-        public IAgentParameters GetParameters() {
+        public override IAgentParameters GetParameters() {
             return new HumanAgentParameters();
         }
 
-        public void SetParameters(IAgentParameters agentParameters) {
+        public override void SetParameters(IAgentParameters agentParameters) {
             HumanAgentParameters parameters = agentParameters as HumanAgentParameters;
             team = parameters.AsTeam;
             parameters.Board.AttemptMove += OnAttemptedMove;
@@ -131,11 +128,11 @@ namespace StrAItego.Game.Agents.HumanAgent
             name = parameters.ToString();
         }
 
-        public bool IsAI() {
+        public override bool IsAI() {
             return false;
         }
 
-        public void Dispose() {
+        public override void Dispose() {
             waitResetEvent = null;
             SetupMoveMade = null;
             UIboard = null;

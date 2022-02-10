@@ -8,8 +8,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.NN
         TFLiteModel model;
 
         protected float[] calcBuffer = new float[3312];
-        public NNAgent() : base() {
-            name = "NN Agent";
+        public NNAgent(string agentName = "NN Agent") : base(agentName) {
             nodeImplementation = typeof(NNNode);
         }
 
