@@ -1,15 +1,15 @@
-﻿using NumSharp;
-using NeuralNetworkModels.NeuralNetworks;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using NeuralNetworkModels.NeuralNetworks;
+using NeuralNetworkTrainer.Data;
+using NumSharp;
 using Tensorflow;
+using Tensorflow.Keras;
 using static Tensorflow.Binding;
 using static Tensorflow.KerasApi;
-using NeuralNetworkTrainer.Data;
-using Tensorflow.Keras;
 
 namespace NeuralNetworkTrainer
 {

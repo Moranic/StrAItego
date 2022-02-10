@@ -1,5 +1,5 @@
-﻿using StrAItego.Game.TFLite;
-using System;
+﻿using System;
+using StrAItego.Game.TFLite;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 {

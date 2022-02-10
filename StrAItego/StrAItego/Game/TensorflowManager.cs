@@ -1,12 +1,12 @@
-﻿using NumSharp;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
+using NeuralNetworkModels.NeuralNetworks;
+using NumSharp;
 using Tensorflow;
 using static Tensorflow.Binding;
-using NeuralNetworkModels.NeuralNetworks;
-using System.Diagnostics;
 
 namespace StrAItego.Game
 {

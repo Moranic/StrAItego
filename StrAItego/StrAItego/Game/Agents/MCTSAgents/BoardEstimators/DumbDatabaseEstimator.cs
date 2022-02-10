@@ -1,7 +1,7 @@
-﻿using StrAItego.Game.Agents.SetupProviders.GravonSetups;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using StrAItego.Game.Agents.SetupProviders.GravonSetups;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 {

@@ -1,6 +1,6 @@
 ﻿using System;
-using Emgu.TF.Lite;
 using System.Runtime.InteropServices;
+using Emgu.TF.Lite;
 
 namespace StrAItego.Game.TFLite
 {

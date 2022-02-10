@@ -1,8 +1,8 @@
-﻿using StrAItego.Game;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using StrAItego.Game;
 
 namespace StrAItego.UI
 {

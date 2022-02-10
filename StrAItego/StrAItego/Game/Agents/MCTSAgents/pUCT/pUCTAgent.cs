@@ -1,6 +1,6 @@
-﻿using StrAItego.Game.Agents.MCTSAgents.NN;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using StrAItego.Game.Agents.MCTSAgents.NN;
 
 namespace StrAItego.Game.Agents.MCTSAgents.pUCT
 {

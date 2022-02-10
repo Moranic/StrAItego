@@ -1,9 +1,9 @@
-﻿using StrAItego.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using StrAItego.UI;
 
 namespace StrAItego.Game.Agents.HumanAgent
 {

@@ -1,13 +1,13 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using Tensorflow;
 using Tensorflow.Keras;
 using Tensorflow.Keras.ArgsDefinition;
 using Tensorflow.Keras.Engine;
-using static Tensorflow.KerasApi;
 using static Tensorflow.Binding;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System.Threading;
+using static Tensorflow.KerasApi;
 
 namespace NeuralNetworkModels.NeuralNetworks
 {

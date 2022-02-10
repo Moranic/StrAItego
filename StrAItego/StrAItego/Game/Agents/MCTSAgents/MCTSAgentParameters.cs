@@ -1,11 +1,11 @@
-﻿using StrAItego.Game.Agents.MCTSAgents.BoardEstimators;
-using StrAItego.Game.Agents.MCTSAgents.BoardEvaluators;
-using StrAItego.Game.Agents.RandomAgent;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using StrAItego.Game.Agents.MCTSAgents.BoardEstimators;
+using StrAItego.Game.Agents.MCTSAgents.BoardEvaluators;
+using StrAItego.Game.Agents.RandomAgent;
 
 namespace StrAItego.Game.Agents.MCTSAgents
 {

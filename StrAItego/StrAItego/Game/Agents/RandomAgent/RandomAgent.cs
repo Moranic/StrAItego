@@ -1,6 +1,6 @@
-﻿using StrAItego.Game.Agents.SetupProviders;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using StrAItego.Game.Agents.SetupProviders;
 
 namespace StrAItego.Game.Agents.RandomAgent
 {

@@ -1,6 +1,6 @@
-﻿using StrAItego.Game.Agents.MCTSAgents.NN;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using StrAItego.Game.Agents.MCTSAgents.NN;
 
 namespace StrAItego.Game.Agents.MCTSAgents.pUCT
 {

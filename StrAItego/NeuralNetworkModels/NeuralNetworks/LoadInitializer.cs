@@ -1,6 +1,6 @@
-﻿using Tensorflow;
+﻿using NumSharp;
+using Tensorflow;
 using Tensorflow.Eager;
-using NumSharp;
 
 namespace NeuralNetworkModels.NeuralNetworks
 {

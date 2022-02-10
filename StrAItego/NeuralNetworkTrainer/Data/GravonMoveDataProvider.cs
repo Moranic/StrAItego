@@ -1,7 +1,7 @@
-﻿using NumSharp;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
+using NumSharp;
 using Tensorflow;
 using static Tensorflow.Binding;
 

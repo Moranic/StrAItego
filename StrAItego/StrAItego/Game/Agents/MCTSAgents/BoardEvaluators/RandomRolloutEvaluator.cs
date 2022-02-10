@@ -1,5 +1,5 @@
-﻿using StrAItego.Game.Agents.RandomAgent;
-using System;
+﻿using System;
+using StrAItego.Game.Agents.RandomAgent;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {

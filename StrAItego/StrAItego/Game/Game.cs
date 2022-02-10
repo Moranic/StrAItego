@@ -1,6 +1,6 @@
-﻿using StrAItego.Game.Agents;
-using System;
+﻿using System;
 using System.Threading;
+using StrAItego.Game.Agents;
 
 namespace StrAItego.Game
 {
