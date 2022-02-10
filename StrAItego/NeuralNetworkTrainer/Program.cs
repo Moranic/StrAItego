@@ -1,5 +1,5 @@
 ﻿using NumSharp;
-using NeuralNetworkTrainer.NeuralNetworks;
+using NeuralNetworkModels.NeuralNetworks;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

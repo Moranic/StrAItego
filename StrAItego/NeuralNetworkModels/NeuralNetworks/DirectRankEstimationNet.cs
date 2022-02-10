@@ -12,7 +12,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NeuralNetworkTrainer.NeuralNetworks
+namespace NeuralNetworkModels.NeuralNetworks
 {
     class DirectRankEstimationNet : Model
     {

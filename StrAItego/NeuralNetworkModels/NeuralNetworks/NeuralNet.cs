@@ -10,7 +10,7 @@ using System.IO;
 using System.Xml;
 using System.Threading;
 
-namespace NeuralNetworkTrainer.NeuralNetworks
+namespace NeuralNetworkModels.NeuralNetworks
 {
     public class NeuralNet : Model
     {

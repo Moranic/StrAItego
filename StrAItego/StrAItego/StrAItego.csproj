@@ -69,9 +69,6 @@
     <StartupObject>StrAItego.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Emgu.TF.Lite.Models, Version=2.4.1.1202, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Emgu.TF.Lite.Models.2.4.1.1202\lib\netstandard2.0\Emgu.TF.Lite.Models.dll</HintPath>
-    </Reference>
     <Reference Include="Emgu.TF.Lite.Netstandard, Version=2.4.1.1202, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Emgu.TF.Lite.2.4.1.1202\lib\netstandard2.0\Emgu.TF.Lite.Netstandard.dll</HintPath>
     </Reference>
@@ -347,12 +344,11 @@
     <None Include="Resources\Units\redunknown.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NeuralNetworkTrainer\NeuralNetworkTrainer.csproj">
-      <Project>{d0279e85-b983-4458-9510-051574565046}</Project>
-      <Name>NeuralNetworkTrainer</Name>
+    <ProjectReference Include="..\NeuralNetworkModels\NeuralNetworkModels.csproj">
+      <Project>{992e0ebd-77c5-4c0e-a63d-e2b053d3b6f5}</Project>
+      <Name>NeuralNetworkModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.6.0.5\build\Fody.targets" Condition="Exists('packages\Fody.6.0.5\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

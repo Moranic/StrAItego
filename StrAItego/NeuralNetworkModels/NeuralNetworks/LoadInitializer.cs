@@ -10,7 +10,7 @@ using static Tensorflow.Binding;
 using Tensorflow.Eager;
 using NumSharp;
 
-namespace NeuralNetworkTrainer.NeuralNetworks
+namespace NeuralNetworkModels.NeuralNetworks
 {
     class LoadInitializer : IInitializer
     {

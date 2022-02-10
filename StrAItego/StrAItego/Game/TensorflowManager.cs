@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Tensorflow;
 using static Tensorflow.Binding;
 using Tensorflow.Graphs;
-using NeuralNetworkTrainer.NeuralNetworks;
+using NeuralNetworkModels.NeuralNetworks;
 using System.Diagnostics;
 using System.Windows.Forms;
 
