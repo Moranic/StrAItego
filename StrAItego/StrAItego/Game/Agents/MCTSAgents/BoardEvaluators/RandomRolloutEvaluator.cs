@@ -3,12 +3,14 @@ using StrAItego.Game.Agents.RandomAgent;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class RandomRolloutEvaluator : IBoardEvaluator
+    class RandomRolloutEvaluator : BoardEvaluator
     {
         bool init = false;
         IAgent red, blue;
 
-        public float EvaluateNode(Node n, Random r = null) {
+        public RandomRolloutEvaluator() : base("Random Rollouts") { }
+
+        public override float EvaluateNode(Node n, Random r = null) {
             if (!init) {
                 RandomAgentParameters redparams = new RandomAgentParameters();
                 RandomAgentParameters blueparams = new RandomAgentParameters();
@@ -35,10 +37,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             int movesMade = Math.Max(1, g.MovesMade);
 
             return result == Team.Red ? (0.8f + (0.2f / movesMade)) : (0.2f - (0.2f / movesMade));
-        }
-
-        public override string ToString() {
-            return "Random Rollouts";
         }
     }
 }

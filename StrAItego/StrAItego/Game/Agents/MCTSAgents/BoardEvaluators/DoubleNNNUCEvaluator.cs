@@ -3,14 +3,16 @@ using StrAItego.Game.TFLite;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class DoubleNNNUCEvaluator : IBoardEvaluator
+    class DoubleNNNUCEvaluator : BoardEvaluator
     {
         TFLiteModel model = null;
         float[] binboard = new float[3312];
 
         NaiveUnitCountEvaluator nuc = new NaiveUnitCountEvaluator();
 
-        public float EvaluateNode(Node n, Random r = null) {
+        public DoubleNNNUCEvaluator() : base("Double NN NUC Evaluator") { }
+
+        public override float EvaluateNode(Node n, Random r = null) {
             if (model == null)
                 model = TFLiteManager.GetModel("StateEvaluator");
             
@@ -28,10 +30,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             float score = (scoreNN + scoreNUC) / 2f;
 
             return score;
-        }
-
-        public override string ToString() {
-            return "Double NN NUC Evaluator";
         }
     }
 }

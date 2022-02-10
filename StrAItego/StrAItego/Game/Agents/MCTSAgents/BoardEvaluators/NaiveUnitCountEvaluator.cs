@@ -2,9 +2,11 @@
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class NaiveUnitCountEvaluator : IBoardEvaluator
+    class NaiveUnitCountEvaluator : BoardEvaluator
     {
-        public float EvaluateNode(Node n, Random r = null) {
+        public NaiveUnitCountEvaluator() : base("Naive Unit Count") { }
+
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -20,10 +22,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 
             float score = 1f - (float)Math.Pow(1 - ((friendlies / enemies) / 40), 8);
             return score;
-        }
-
-        public override string ToString() {
-            return "Naive Unit Count";
         }
     }
 }

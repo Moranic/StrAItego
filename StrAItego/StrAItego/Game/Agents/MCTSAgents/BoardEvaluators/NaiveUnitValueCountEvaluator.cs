@@ -2,9 +2,11 @@
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class NaiveUnitValueCountEvaluator : IBoardEvaluator
+    class NaiveUnitValueCountEvaluator : BoardEvaluator
     {
-        public float EvaluateNode(Node n, Random r = null) {
+        public NaiveUnitValueCountEvaluator() : base("Naive Unit Value Count") { }
+
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -48,11 +50,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
                 case Rank.Bomb: return 10 * count;
                 default: return 0;
             }
-        }
-
-
-        public override string ToString() {
-            return "Naive Unit Value Count";
         }
     }
 }

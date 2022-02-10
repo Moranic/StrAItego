@@ -2,11 +2,13 @@
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class NaiveExplorerEvaluator : IBoardEvaluator
+    class NaiveExplorerEvaluator : BoardEvaluator
     {
         NaiveUnitCountEvaluator nuce = new NaiveUnitCountEvaluator();
 
-        public float EvaluateNode(Node n, Random r = null) {
+        public NaiveExplorerEvaluator() : base("Naive Explorer") { }
+
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -29,10 +31,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             float score = ((480 - friendlies) * (480 - friendlies) / 230400 + (enemies * enemies / 230400)) / 2;
 
             return (unitValue + (score / 20)) / 1.05f;
-        }
-
-        public override string ToString() {
-            return "Naive Explorer";
         }
     }
 }

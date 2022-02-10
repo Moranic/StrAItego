@@ -2,9 +2,11 @@
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class TieredUnitCountEvaluator : IBoardEvaluator
+    class TieredUnitCountEvaluator : BoardEvaluator
     {
-        public float EvaluateNode(Node n, Random r = null) {
+        public TieredUnitCountEvaluator() : base("Tiered Unit Count") { }
+
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -54,10 +56,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             }
             
             return score / 2f;
-        }
-
-        public override string ToString() {
-            return "Tiered Unit Count";
         }
     }
 }

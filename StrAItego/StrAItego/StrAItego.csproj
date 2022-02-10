@@ -175,6 +175,7 @@
     <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\NaiveNeuralNetworkEstimator.cs" />
     <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\OmniscientEstimator.cs" />
     <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\RandomEstimator.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\BoardEvaluator.cs" />
     <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\CountInvincibleUnitsEvaluator.cs" />
     <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\DoubleNNNUCEvaluator.cs" />
     <Compile Include="Game\Agents\MCTSAgents\BoardEvaluators\FlatNUCEvaluator.cs" />

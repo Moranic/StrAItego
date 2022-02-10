@@ -2,9 +2,11 @@
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class FlatNUCEvaluator : IBoardEvaluator
+    class FlatNUCEvaluator : BoardEvaluator
     {
-        public float EvaluateNode(Node n, Random r = null) {
+        public FlatNUCEvaluator() : base("Flat NUC") { }
+
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -21,9 +23,5 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             float score = (friendlies - enemies) / 80f + 0.5f;
             return score;
         }
-
-    public override string ToString() {
-        return "Flat NUC";
     }
-}
 }

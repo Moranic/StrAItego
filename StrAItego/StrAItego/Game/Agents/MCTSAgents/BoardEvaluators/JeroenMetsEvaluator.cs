@@ -2,11 +2,11 @@
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class JeroenMetsEvaluator : IBoardEvaluator
+    class JeroenMetsEvaluator : BoardEvaluator
     {
-        
+        public JeroenMetsEvaluator() : base("Jeroen Mets Evaluator") { }
 
-        public float EvaluateNode(Node n, Random r = null) {
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -38,10 +38,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 
             float score = (redPoints / (float)bluePoints) / 11087f;
             return score;
-        }
-
-        public override string ToString() {
-            return "Jeroen Mets Evaluator";
         }
 
         static int[] discoveryValue = new int[] { 0, 0, 0, 20, 5, 10, 15, 20, 25, 50, 100, 200 };

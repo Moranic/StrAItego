@@ -2,16 +2,16 @@
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class CountInvincibleUnitsEvaluator : IBoardEvaluator
+    class CountInvincibleUnitsEvaluator : BoardEvaluator
     {
         int[][] remainingPieces = new int[2][];
 
-        public CountInvincibleUnitsEvaluator() {
+        public CountInvincibleUnitsEvaluator() : base("Invincible Unit Count") {
             for (int i = 0; i <= 1; i++)
                 remainingPieces[i] = new int[12];
         }
 
-        public float EvaluateNode(Node n, Random r = null) {
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -64,10 +64,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 
             return ((float)friendlyInvincibles / enemyInvincibles) / 38;
 
-        }
-
-        public override string ToString() {
-            return "Invincible Unit Count";
         }
     }
 }
