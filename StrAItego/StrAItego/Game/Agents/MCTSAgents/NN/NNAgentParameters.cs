@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StrAItego.Game.Agents.MCTSAgents.NN
+﻿namespace StrAItego.Game.Agents.MCTSAgents.NN
 {
     class NNAgentParameters : MCTSAgentParameters
     {

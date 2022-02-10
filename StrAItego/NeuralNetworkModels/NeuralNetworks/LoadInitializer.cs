@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Tensorflow;
-using Tensorflow.Keras;
-using Tensorflow.Keras.ArgsDefinition;
-using Tensorflow.Keras.Engine;
-using static Tensorflow.KerasApi;
-using static Tensorflow.Binding;
+﻿using Tensorflow;
 using Tensorflow.Eager;
 using NumSharp;
 

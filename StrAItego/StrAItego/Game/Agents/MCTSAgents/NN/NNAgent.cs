@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Emgu.TF.Lite;
+﻿using System.Linq;
 using StrAItego.Game.TFLite;
 
 namespace StrAItego.Game.Agents.MCTSAgents.NN

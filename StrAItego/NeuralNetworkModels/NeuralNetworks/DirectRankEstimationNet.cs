@@ -7,7 +7,6 @@ using static Tensorflow.KerasApi;
 using static Tensorflow.Binding;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using System.Xml;
 using System.Threading;
 using System.Collections.Generic;
 using System.Linq;

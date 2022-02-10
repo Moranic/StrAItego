@@ -1,12 +1,5 @@
-﻿using NumSharp;
-using NumSharp.Utilities;
-using StrAItego.Game.TFLite;
+﻿using StrAItego.Game.TFLite;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 {

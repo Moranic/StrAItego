@@ -10,7 +10,6 @@ using static Tensorflow.Binding;
 using static Tensorflow.KerasApi;
 using NeuralNetworkTrainer.Data;
 using Tensorflow.Keras;
-using Tensorflow.Eager;
 
 namespace NeuralNetworkTrainer
 {

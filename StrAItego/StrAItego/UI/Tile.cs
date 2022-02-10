@@ -1,14 +1,8 @@
 ﻿using StrAItego.Game;
 using StrAItego.Properties;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace StrAItego.UI
 {

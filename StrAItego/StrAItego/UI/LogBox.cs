@@ -1,7 +1,6 @@
 ﻿using StrAItego.Game;
 using System.Windows.Forms;
 using System.Drawing;
-using System;
 
 namespace StrAItego.UI
 {

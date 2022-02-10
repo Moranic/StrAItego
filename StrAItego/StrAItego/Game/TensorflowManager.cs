@@ -2,16 +2,11 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Tensorflow;
 using static Tensorflow.Binding;
-using Tensorflow.Graphs;
 using NeuralNetworkModels.NeuralNetworks;
 using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace StrAItego.Game
 {
