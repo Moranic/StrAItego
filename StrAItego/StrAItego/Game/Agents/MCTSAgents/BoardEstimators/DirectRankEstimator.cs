@@ -3,7 +3,7 @@ using StrAItego.Game.TFLite;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 {
-    class DirectRankEstimator : IBoardEstimator
+    class DirectRankEstimator : BoardEstimator
     {
         TFLiteModel model;
         float[] binsetup = new float[480];
@@ -24,7 +24,9 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 
         static int[] startingIndexOfRank = { 0, 0, 1, 2, 10, 15, 19, 23, 27, 30, 32, 33, 34, 40 };
 
-        public Board EstimateBoard(Board fromBoard, Random r = null) {
+        public DirectRankEstimator() : base("Direct Rank Estimator") { }
+
+        public override Board EstimateBoard(Board fromBoard, Random r = null) {
             if (model == null) {
                 model = TFLiteManager.GetModel("DirectRankEstimator1");
             }
@@ -90,11 +92,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
             return *(float*)(&value);
         }
 
-        public override string ToString() {
-            return "Direct Rank Estimator";
-        }
-
-        public void Dispose() {
+        public override void Dispose() {
             model?.Dispose();
         }
     }

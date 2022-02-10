@@ -168,6 +168,7 @@
     <Compile Include="Game\Agents\HumanAgent\HumanAgentParameters.cs" />
     <Compile Include="Game\Agents\IAgent.cs" />
     <Compile Include="Game\Agents\IAgentParameters.cs" />
+    <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\BoardEstimator.cs" />
     <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\DirectRankEstimator.cs" />
     <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\DumbDatabaseEstimator.cs" />
     <Compile Include="Game\Agents\MCTSAgents\BoardEstimators\IBoardEstimator.cs" />

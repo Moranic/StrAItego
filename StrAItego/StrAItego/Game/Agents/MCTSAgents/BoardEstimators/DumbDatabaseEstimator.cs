@@ -5,7 +5,7 @@ using StrAItego.Game.Agents.SetupProviders.GravonSetups;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 {
-    class DumbDatabaseEstimator : IBoardEstimator
+    class DumbDatabaseEstimator : BoardEstimator
     {
         static PotentialRank[][] database;
         static int[] dbfrequencies;
@@ -50,11 +50,9 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
             }
         }
 
-        public void Dispose() {
-            return;
-        }
+        public DumbDatabaseEstimator() : base("Dumb Database Estimator") { }
 
-        public Board EstimateBoard(Board fromBoard, Random r = null) {
+        public override Board EstimateBoard(Board fromBoard, Random r = null) {
             PotentialRank[] info = fromBoard.GetPieces(Team.Blue).Select(x => x.PotentialRank).ToArray();
             PotentialRank[] match = SearchDatabase(info);
 
@@ -126,10 +124,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
                 }
             }
             return database[bestind];
-        }
-
-        public override string ToString() {
-            return "'Dumb' Database Estimator";
         }
 
         static PotentialRank[] StringToPotentialRanks(string setup) {

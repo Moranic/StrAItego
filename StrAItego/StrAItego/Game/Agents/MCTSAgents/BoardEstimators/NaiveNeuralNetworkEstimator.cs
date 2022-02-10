@@ -3,7 +3,7 @@ using StrAItego.Game.TFLite;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 {
-    class NaiveNeuralNetworkEstimator : IBoardEstimator
+    class NaiveNeuralNetworkEstimator : BoardEstimator
     {
         RandomEstimator randomEstimator = new RandomEstimator();
         static int noOfEstimations = 1000;
@@ -12,7 +12,9 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
         Board currBoard;
         TFLiteModel model;
 
-        public Board EstimateBoard(Board fromBoard, Random r = null) {
+        public NaiveNeuralNetworkEstimator() : base("NaiveNeuralNetworkEstimator") { }
+
+        public override Board EstimateBoard(Board fromBoard, Random r = null) {
             if (model == null) {
                 model = TFLiteManager.GetModel("RandomOrHumanSetup8");
                 bestBoard = new Board();
@@ -47,11 +49,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
             return *(float*)(&value);
         }
 
-        public override string ToString() {
-            return "Naive RvH NN Estimator";
-        }
-
-        public void Dispose() {
+        public override void Dispose() {
             model?.Dispose();
         }
     }
