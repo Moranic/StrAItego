@@ -39,6 +39,12 @@ namespace StrAItego.Game.TFLite
             return ApplySoftmax(GetOutputArray());
         }
 
+        /// <summary>
+        /// The full prediction in one method. Use this method when there are multiple outputs.
+        /// </summary>
+        /// <param name="input">The model input</param>
+        /// <param name="noOfOutputs">The number of outputs</param>
+        /// <returns>The predicted outputs</returns>
         public float[][] PredictMultipleOutputs(float[] input, int noOfOutputs) {
             SetInput(input);
             Invoke();
@@ -75,7 +81,7 @@ namespace StrAItego.Game.TFLite
         /// Set the input values to the input tensor.
         /// </summary>
         /// <param name="values"></param>
-        public void SetInput(float[] values) {
+        private void SetInput(float[] values) {
             //unsafe {
             //    float* arrpointer = (float*)interpreter.Inputs[0].DataPointer;
             //    foreach (float value in values) {
@@ -99,7 +105,7 @@ namespace StrAItego.Game.TFLite
         /// Get the output values of the neural network.
         /// </summary>
         /// <returns></returns>
-        public float[] GetOutputArray(int outputLayer = 0) {
+        private float[] GetOutputArray(int outputLayer = 0) {
             return (float[])interpreter.Outputs[outputLayer].Data;
         }
 
