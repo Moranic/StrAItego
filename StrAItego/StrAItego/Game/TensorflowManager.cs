@@ -10,6 +10,7 @@ using static Tensorflow.Binding;
 
 namespace StrAItego.Game
 {
+    [Obsolete("The TensorflowManager is obsolete, use TFLiteManager instead.")]
     public static class TensorflowManager
     {
         static ConcurrentQueue<PredictionRequest> requestQueue = new ConcurrentQueue<PredictionRequest>();
