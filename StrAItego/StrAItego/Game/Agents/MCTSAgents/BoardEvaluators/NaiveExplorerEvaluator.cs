@@ -19,7 +19,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             float friendlies = 0;
             float enemies = 0;
             for(Square i = Square.A1; i <= Square.K10; i++) {
-                Team t = Board.OfTeam(n.Board.OnSquare(i));
+                Team t = n.Board.OnSquare(i);
                 if (t == Team.Neither)
                     continue;
                 if (t == Team.Red)

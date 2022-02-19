@@ -77,10 +77,10 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
                 }
                 int[] assignments = HungarianAlgorithm.HungarianAlgorithm.FindAssignments(costs);
                 for (int i = 0; i < 40; i++)
-                    newRanks[i] = Board.PotentialRankToRank(match[assignments[i]]);
+                    newRanks[i] = match[assignments[i]].ToRank();
             }
             else {
-                newRanks = match.Select(x => Board.PotentialRankToRank(x)).ToArray();
+                newRanks = match.Select(x => x.ToRank()).ToArray();
             }
             Board newBoard = new Board(fromBoard);
             newBoard.EnterEstimation(newRanks);

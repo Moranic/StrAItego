@@ -197,6 +197,8 @@
     <Compile Include="Game\Agents\MCTSAgents\NN\NNAgentParameters.cs" />
     <Compile Include="Game\Agents\MCTSAgents\pUCT\pUCTAgent.cs" />
     <Compile Include="Game\Agents\MCTSAgents\pUCT\pUCTAgentParameters.cs" />
+    <Compile Include="Game\EnumExtensions.cs" />
+    <Compile Include="Game\Piece.cs" />
     <Compile Include="Game\TFLite\TFLiteModel.cs" />
     <Compile Include="Game\Agents\MCTSAgents\UCB\UCBAgent.cs" />
     <Compile Include="Game\Agents\MCTSAgents\UCB\UCBAgentParameters.cs" />

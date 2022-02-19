@@ -11,7 +11,7 @@ namespace StrAItego.Game.Agents.RandomAgent.RandomAvoidDefeats
             if (moves.Count == 0)
                 return null;
             List<Move> noDefeatMoves = moves.Where(x => (Board.UnitKnown(x.InfoOfDefender) &&
-                                                        Board.DoAttack(x.Attacker, x.Defender) == Outcome.Victory) ||
+                                                        x.Attacker.Attacks(x.Defender) == Outcome.Victory) ||
                                                         !Board.UnitKnown(x.InfoOfDefender)).ToList();
             if(noDefeatMoves.Count == 0)
                 return moves[r.Next(moves.Count)];

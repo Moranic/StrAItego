@@ -19,7 +19,7 @@ namespace StrAItego.Game
         public static int maxBranchingFactor = 154;
         // 244 = Terrible upper bound. 8 scouts x 18 moves + 25 pieces x 4 moves = 244 moves if all could move unimpeded.
         // 160 = Better but not 100% sure. Can be lowered by placing two flags on the board.
-
+        // We instantiate using this number to avoid having to resize lists later on, which places a lot of pressure on the Garbage Collector.
         List<Move> moves = new List<Move>(maxBranchingFactor);
 
         // For the two-squares rule
@@ -148,7 +148,7 @@ namespace StrAItego.Game
             for(int i = 0; i < board.Length; i++) {
                 if(board[i]?.Team == Team.Blue) {
                     board[i].Rank = replacedUnits[replaced++];
-                    board[i].PotentialRank = RankToPotentialRank(board[i].Rank);
+                    board[i].PotentialRank = board[i].Rank.ToPotentialRank();
                 }
             }
         }
@@ -186,17 +186,17 @@ namespace StrAItego.Game
 
                 if (move.Defender == null) {                                   // If we move into an empty square, just move the unit.
                     if (move.Attacker.Rank == Rank.Scout &&                             // Discover scout if it moves more than one space.
-                        !GetAdjacentSquares(move.Origin).Contains(move.Destination))
+                        !move.Origin.AdjacentSquares().Contains(move.Destination))
                         move.Attacker.PotentialRank = UpdateInfo(move.InfoOfAttacker, PotentialRank.Scout, false);
                     else                                                                // Not a scout, just move. Attacker can't be a bomb or flag.
                         move.Attacker.PotentialRank = UpdateInfo(move.InfoOfAttacker, PotentialRank.NotBombOrFlag, false);
                     board[(int)move.Destination] = move.Attacker;
                 }
                 else {
-                    Outcome o = DoAttack(move.Attacker, move.Defender); // Check for outcome.
+                    Outcome o = move.Attacker.Attacks(move.Defender); // Check for outcome.
                                                                         // Both get revealed, calculate info
-                    move.Attacker.PotentialRank = UpdateInfo(move.InfoOfAttacker, RankToPotentialRank(move.Attacker.Rank), false);
-                    move.Defender.PotentialRank = UpdateInfo(move.InfoOfDefender, RankToPotentialRank(move.Defender.Rank), true);
+                    move.Attacker.PotentialRank = UpdateInfo(move.InfoOfAttacker, move.Attacker.Rank.ToPotentialRank(), false);
+                    move.Defender.PotentialRank = UpdateInfo(move.InfoOfDefender, move.Defender.Rank.ToPotentialRank(), true);
 
                     int asTeam = (int)move.Attacker.Team;
 
@@ -260,7 +260,7 @@ namespace StrAItego.Game
 
             // Check for discovery
             if (UnitKnown(newInfo)) {
-                Rank foundRank = PotentialRankToRank(newInfo);
+                Rank foundRank = newInfo.ToRank();
                 remainingPieces[fromOpponent ? 1 : 0][(int)foundRank - 1]--;
                 potentialPieces[fromOpponent ? 1 : 0][(int)foundRank - 1]--;
             }
@@ -297,7 +297,7 @@ namespace StrAItego.Game
                 for (int rank = (int)Rank.Flag + 1; rank <= (int)Rank.Bomb; rank++) {
                     // Check anything other than flag/bomb
                     if((potentialPieces[team][rank - 1] == remainingPieces[team][rank - 1] || remainingPieces[team][rank - 1] == 0) && !foundAll[team][rank - 1]) { // We can reveal all pieces of rank rank of team team
-                        PotentialRank pr = RankToPotentialRank((Rank)rank);
+                        PotentialRank pr = ((Rank)rank).ToPotentialRank();
                         for(int sq = 0; sq < 92; sq++) {
                             Piece p = board[sq];
                             if (p != null && (int)p.Team == team) {
@@ -343,19 +343,18 @@ namespace StrAItego.Game
 
             for (Square i = Square.A1; i <= Square.K10; i++) {
                 Piece u = OnSquare(i);
-                Rank r = GetRank(u);
                 if (u == null ||
-                    r == Rank.Flag ||
-                    r == Rank.Bomb) continue;   //No moves to be made for empty tile, bombs or flags
+                    u == Rank.Flag ||
+                    u == Rank.Bomb) continue;   //No moves to be made for empty tile, bombs or flags
 
                 // Scouts
-                if ((GetRank(u) == Rank.Scout) && u.Team == team) {
+                if (u == Rank.Scout && u == team) {
                     AddScoutMoves(i, team, moves);
                     continue;
                 }
 
                 // Generic units
-                if(u.Team == team)
+                if(u == team)
                     AddGenericMoves(i, team, moves);
             }
 
@@ -374,12 +373,12 @@ namespace StrAItego.Game
             Square toExplore;
             Piece u;
             for (Direction d = Direction.North; d <= Direction.West; d++) {
-                toExplore = GetAdjacentSquare(i, d);
+                toExplore = i.AdjacentSquare(d);
 
                 if (toExplore == Square.None) continue; // We are out of bounds
 
                 u = OnSquare(toExplore);
-                if (OfTeam(u) == t) { // Blocked by friendly unit
+                if (u == t) { // Blocked by friendly unit
                     continue;
                 }
                 else {
@@ -399,20 +398,19 @@ namespace StrAItego.Game
                 toExplore = i;
 
                 while (!blocked) {
-                    toExplore = GetAdjacentSquare(toExplore, d);
+                    toExplore = toExplore.AdjacentSquare(d);
 
                     if (toExplore == Square.None) break; // We are out of bounds
 
                     u = OnSquare(toExplore);
-                    Team ot = OfTeam(u);
-                    if (ot == t) { // Blocked by friendly unit
+                    if (u == t) { // Blocked by friendly unit
                         blocked = true;
                     }
                     else {
                         if ((t == Team.Red && (tsrCounterRed < 3 || i != lastMovedDestinationRed || toExplore != lastMovedOriginRed)) ||
                              t == Team.Blue && (tsrCounterBlue < 3 || i != lastMovedDestinationBlue || toExplore != lastMovedOriginBlue))
                             moves.Add(new Move(OnSquare(i), i, toExplore, u, moves.Count));
-                        if (ot != Team.Neither) blocked = true;  // Can't move further due to enemy unit
+                        if (u != Team.Neither) blocked = true;  // Can't move further due to enemy unit
                     }
                 }
             }
@@ -487,7 +485,7 @@ namespace StrAItego.Game
                 Piece p = ps[i];
                 // Mark potential ranks
                 for (Rank r = Rank.Flag; r <= Rank.Bomb; r++) {
-                    PotentialRank pr = RankToPotentialRank(r);
+                    PotentialRank pr = r.ToPotentialRank();
                     if ((p.PotentialRank & pr) > 0) {
                         bin[i * 12 + ((int)r - 1)] = 1f;
                     }
@@ -505,7 +503,7 @@ namespace StrAItego.Game
             StringBuilder sb = new StringBuilder();
             for (int i = 9; i >= 0; i--) {
                 for (int j = 0; j < 10; j++) {
-                    sb.Append(UnitToString(OnSquare(GetSquare(i, j))));
+                    sb.Append(OnSquare(GetSquare(i, j)).UnitToString());
                 }
                 sb.AppendLine();
             }
@@ -538,7 +536,7 @@ namespace StrAItego.Game
 
                     // Then, mark potential ranks
                     for (Rank r = Rank.Flag; r <= Rank.Bomb; r++) {
-                        PotentialRank pr = RankToPotentialRank(r);
+                        PotentialRank pr = r.ToPotentialRank();
                         if ((p.PotentialRank & pr) > 0) {
                             bin[1104 * (p.Team == asTeam ? 1 : 2) + (int)i + 92 * ((int)r - 1)] = 1f;
                         }
@@ -558,7 +556,7 @@ namespace StrAItego.Game
 
                     // Then, mark potential ranks
                     for (Rank r = Rank.Flag; r <= Rank.Bomb; r++) {
-                        PotentialRank pr = RankToPotentialRank(r);
+                        PotentialRank pr = r.ToPotentialRank();
                         if ((p.PotentialRank & pr) > 0) {
                             bin[1104 * (p.Team == asTeam ? 1 : 2) + (int)i + 92 * ((int)r - 1)] = 1f;
                         }

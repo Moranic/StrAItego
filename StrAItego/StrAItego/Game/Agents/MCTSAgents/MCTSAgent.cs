@@ -234,7 +234,7 @@ namespace StrAItego.Game.Agents.MCTSAgents
                     children[i++] = null;
             }
             nextMoves = currentBoard.GetValidMoves(team);
-            if (Board.GetRank(m.Defender) == Rank.Flag || nextMoves.Count == 0)
+            if (m.Defender == Rank.Flag || nextMoves.Count == 0)
                 winner = parent.team;
             evaluated = false;
         }

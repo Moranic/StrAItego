@@ -58,8 +58,8 @@ namespace StrAItego.Game
                 movesMade++;
                 OnMoveMade(turn == Team.Red ? (Move)m : ((Move)m).GetInvertedMove());
                 if (((Move)m).Defender != null && (
-                    ((Move)m).Defender.GetUnit() == Unit.BlueFlag ||
-                   ((Move)m).Defender.GetUnit() == Unit.RedFlag)) {
+                    ((Move)m).Defender == Unit.BlueFlag ||
+                   ((Move)m).Defender == Unit.RedFlag)) {
                     winner = turn;
                     DisposeAgents(disposeAgents);
                     return winner;
