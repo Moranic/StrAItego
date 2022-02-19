@@ -92,7 +92,7 @@ namespace StrAItego.Game.Agents.HumanAgent
                     break;
                 if ((team == Team.Red && From <= Square.K4 && To <= Square.K4) || 
                     (team == Team.Blue && From >= Square.A7 && To >= Square.A7)) {
-                    Move m = new Move(board.OnSquare(From), From, To, board.OnSquare(To), 0);
+                    Move m = new Move(board[From], From, To, board[To], 0);
                     board.MakeMove(m, true);
                     SetupMoveMade.Invoke(this, new MoveMadeEventArgs(m));
                 }
@@ -105,7 +105,7 @@ namespace StrAItego.Game.Agents.HumanAgent
             if (team == Team.Blue)
                 board.Invert();
             for (Square i = Square.A1; i <= Square.K4; i++) {
-                units[(int)i] = board.OnSquare(i).Rank;
+                units[(int)i] = board[i];
             }
             return units;
         }

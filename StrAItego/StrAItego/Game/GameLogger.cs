@@ -4,11 +4,17 @@ using System.Drawing;
 
 namespace StrAItego.Game
 {
+    /// <summary>
+    /// Object that handles debug messages from agents playing a game. It can be accessed by using the "View Log" button.
+    /// </summary>
     public class GameLogger
     {
         Game linkedGame;
         List<LogEntry> entries = new List<LogEntry>();
 
+        /// <summary>
+        /// Links a game to this logger.
+        /// </summary>
         public void Link(Game g) {
             if (linkedGame != null)
                 linkedGame.MoveMade -= OnMoveMade;
@@ -17,6 +23,12 @@ namespace StrAItego.Game
             LogEntryMade += OnEntryMade;
         }
 
+        /// <summary>
+        /// Log a debug message. Will be presented in the colour of the agent that made the log entry.
+        /// </summary>
+        /// <param name="message">The message that should be logged.</param>
+        /// <param name="bold">Whether or not this message should be displayed in <b>Bold</b></param>
+        /// <param name="relatedMove">The move this message is related to. Any mentions of the text "<b>#move#</b>" will be replaced with the pretty-printed move.</param>
         public void LogMessage(string message, bool bold = false, Move? relatedMove = null) {
             Color c = Turn == Team.Red ? Color.LightCoral : Color.SkyBlue;
             if(relatedMove != null) {

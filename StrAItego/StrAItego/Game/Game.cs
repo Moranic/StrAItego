@@ -13,6 +13,9 @@ namespace StrAItego.Game
         bool cancelled = false;
         int movesMade = 0;
 
+        /// <summary>
+        /// Create a new game.
+        /// </summary>
         public Game(IAgent redPlayer, IAgent bluePlayer) {
             board = new Board();
             agents[0] = redPlayer;
@@ -20,6 +23,9 @@ namespace StrAItego.Game
             turn = Team.Red;
         }
 
+        /// <summary>
+        /// Create a new game that continues from a specific state.
+        /// </summary>
         public Game(IAgent redPlayer, IAgent bluePlayer, Board b, Team team) {
             board = new Board(b);
             agents[0] = redPlayer;
@@ -35,6 +41,14 @@ namespace StrAItego.Game
             cancelled = true;
         }
 
+        /// <summary>
+        /// Plays a game. Will request moves from the RedAgent and BlueAgent.
+        /// </summary>
+        /// <param name="moveDelay">Delay added between moves, to prevent the game from going so fast the UI can't keep up.</param>
+        /// <param name="gameLogger">GameLogger object to log debug information from the game.</param>
+        /// <param name="skipSetup">Skip the setup phase.</param>
+        /// <param name="disposeAgents">Dispose of the agents after the game. Set to false to reuse the agents.</param>
+        /// <returns>Winner of the game.</returns>
         public Team PlayGame(System.Windows.Forms.NumericUpDown moveDelay = null, GameLogger gameLogger = null, bool skipSetup = false, bool disposeAgents = true) {
             if (!skipSetup) {
                 // Setup
@@ -79,13 +93,22 @@ namespace StrAItego.Game
             return winner;
         }
 
+        /// <summary>
+        /// Event that fires if an agent makes a move.
+        /// </summary>
         public EventHandler<MoveMadeEventArgs> MoveMade;
+        /// <summary>
+        /// Event that fires if the setup ends.
+        /// </summary>
         public EventHandler<EventArgs> SetupEnd;
 
-
+        /// <summary>
+        /// Get which Team's turn it is.
+        /// </summary>
         public Team GetTurn {
             get { return turn; }
         }
+
         void OnMoveMade(Move m) {
             MoveMade?.Invoke(this, new MoveMadeEventArgs(m));
         }
@@ -108,6 +131,9 @@ namespace StrAItego.Game
             get { return winner; }
         }
 
+        /// <summary>
+        /// The number of moves made in the game.
+        /// </summary>
         public int MovesMade {
             get { return movesMade; }
         }

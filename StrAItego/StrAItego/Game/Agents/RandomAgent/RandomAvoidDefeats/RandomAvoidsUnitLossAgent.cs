@@ -10,9 +10,9 @@ namespace StrAItego.Game.Agents.RandomAgent.RandomAvoidDefeats
             List<Move> moves = board.GetValidMoves(Team.Red);
             if (moves.Count == 0)
                 return null;
-            List<Move> noDefeatMoves = moves.Where(x => (Board.UnitKnown(x.InfoOfDefender) &&
+            List<Move> noDefeatMoves = moves.Where(x => (x.InfoOfDefender.IsDiscovered() &&
                                                         x.Attacker.Attacks(x.Defender) == Outcome.Victory) ||
-                                                        !Board.UnitKnown(x.InfoOfDefender)).ToList();
+                                                        !x.InfoOfDefender.IsDiscovered()).ToList();
             if(noDefeatMoves.Count == 0)
                 return moves[r.Next(moves.Count)];
             return noDefeatMoves[r.Next(noDefeatMoves.Count)];

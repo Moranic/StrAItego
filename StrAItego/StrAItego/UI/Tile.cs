@@ -87,7 +87,7 @@ namespace StrAItego.UI
         public void MakeVisible(Unit unit, PotentialRank info, Team asTeam) {
             latestInfo = info;
             Team ofTeam = unit == Unit.None ? Team.Neither : unit > Unit.RedBomb ? Team.Blue : Team.Red;
-            bool reveal = asTeam == Team.Both || ofTeam == asTeam || Game.Board.UnitKnown(info) || unit == Unit.None;
+            bool reveal = asTeam == Team.Both || ofTeam == asTeam || info.IsDiscovered() || unit == Unit.None;
             int newIndex = reveal ? unit == Unit.None ? -1 : 
                                 (int)unit + (int)ofTeam : 
                                 ofTeam == Team.Red ? 

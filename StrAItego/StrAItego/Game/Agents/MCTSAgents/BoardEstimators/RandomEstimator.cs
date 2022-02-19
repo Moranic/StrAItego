@@ -60,7 +60,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 
             // First loop, assign all known ranks
             foreach (Piece p in pieceStorage) {
-                if (Board.UnitKnown(p.PotentialRank)) {
+                if (p.IsDiscovered) {
                     remaining[(int)p.Rank - 1]--;
                     units[p.SetupOrigin] = p.Rank;
                 }

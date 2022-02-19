@@ -72,6 +72,8 @@
             PotentialRank = PotentialRank.Any;
         }
 
+        public bool IsDiscovered => PotentialRank.IsDiscovered();
+
         public bool HasMoved {
             get { return (PotentialRank & PotentialRank.BombOrFlag) == 0; }
         }

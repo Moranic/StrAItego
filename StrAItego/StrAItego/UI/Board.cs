@@ -43,8 +43,8 @@ namespace StrAItego.UI
         public void DrawBoard(Game.Board board, Team asTeam) {
             for (Square i = Square.A1; i <= Square.K10; i++) {
                 Square index = game.GetTurn == Team.Red ? i : 91 - i;
-                Unit u = board.OnSquare(index);
-                PotentialRank info = board.InfoOnSquare(index);
+                Unit u = board[index];
+                PotentialRank info = board[index];
                 if (game.GetTurn == Team.Blue && u > Unit.None)
                     u = u > Unit.RedBomb ? u - 12 : u + 12;
                 tiles[(int)i].MakeVisible(u, info, asTeam);

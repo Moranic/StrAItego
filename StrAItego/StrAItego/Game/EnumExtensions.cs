@@ -8,6 +8,7 @@ namespace StrAItego.Game
 {
     public static class EnumExtensions
     {
+        #region Static arrays
         // Format: [Square][Direction] NESW
         static readonly Square[][] _adjacencyTable = {
             new Square[] {Square.A2,   Square.B1,   Square.None, Square.None },  //A1
@@ -138,20 +139,38 @@ namespace StrAItego.Game
          0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
          0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
+        static readonly int[] _originalOfRank = new int[] { 0, 1, 1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 6 };
+        #endregion
+
+        /// <summary>
+        /// Get the row that Square s is in.
+        /// </summary>
         public static int Row(this Square s)
         {
             return _rowTable[(int)s];
         }
 
+        /// <summary>
+        /// Get the column that Square s is in.
+        /// </summary>
         public static int Column(this Square s)
         {
             return _columnTable[(int)s];
         }
 
+        /// <summary>
+        /// Returns the square adjacent to this one in a specific Direction d.
+        /// </summary>
         public static Square AdjacentSquare(this Square s, Direction d) => _adjacencyTable[(int)s][(int)d];
 
+        /// <summary>
+        /// Returns all squares adjacent to this one.
+        /// </summary>
         public static Square[] AdjacentSquares(this Square s) => _adjacencyTable[(int)s];
 
+        /// <summary>
+        /// Determines the outcome of an attack where this Piece attacks Piece defender.
+        /// </summary>
         public static Outcome Attacks(this Piece attacker, Piece defender)
         {
             if (attacker == Rank.Spy && defender == Rank.Marshal)
@@ -165,10 +184,15 @@ namespace StrAItego.Game
                                           Outcome.Defeat;   // Otherwise, defeat.
         }
 
-        static readonly int[] _originalOfRank = new int[] { 0, 1, 1, 8, 5, 4, 4, 4, 3, 2, 1, 1, 6 };
-
+        /// <summary>
+        /// Returns the number of pieces of a specific rank are originally on a Stratego board.
+        /// </summary>
         public static int OriginalOfRank(this Rank r) => _originalOfRank[(int)r];
 
+        /// <summary>
+        /// Convert PotentialRank to a single rank, and throw if not possible.
+        /// <br>Also converts negative PotentialRanks, e.g. NotFlag => Flag.</br>
+        /// </summary>
         public static Rank ToRank(this PotentialRank x)
         {
             return x switch
@@ -202,7 +226,9 @@ namespace StrAItego.Game
             };
         }
 
-
+        /// <summary>
+        /// Convert rank to a PotentialRank of only this rank.
+        /// </summary>
         public static PotentialRank ToPotentialRank(this Rank x)
         {
             return x switch
@@ -224,6 +250,9 @@ namespace StrAItego.Game
             };
         }
 
+        /// <summary>
+        /// Convert piece to a two-letter string.
+        /// </summary>
         public static string UnitToString(this Piece p)
         {
             if (p == null)
@@ -234,6 +263,9 @@ namespace StrAItego.Game
                 return "B" + p.Rank.ToString();
         }
 
+        /// <summary>
+        /// Convert Rank to a single letter string.
+        /// </summary>
         public static string ToString(this Rank r)
         {
             return r switch
@@ -255,6 +287,9 @@ namespace StrAItego.Game
             };
         }
 
+        /// <summary>
+        /// True if a piece with this PotentialRank could kill a piece of Rank rank.
+        /// </summary>
         public static bool CouldKill(this PotentialRank pr, Rank rank)
         {
             if (pr == PotentialRank.None)
@@ -274,6 +309,9 @@ namespace StrAItego.Game
             }
         }
 
+        /// <summary>
+        /// True if a piece with this PotentialRank could kill a piece of Rank rank without killing itself.
+        /// </summary>
         public static bool CouldKillSafely(this PotentialRank pr, Rank rank)
         {
             if (pr == PotentialRank.None)
@@ -293,6 +331,9 @@ namespace StrAItego.Game
             }
         }
 
+        /// <summary>
+        /// True if a given Rank will kill against a piece that has PotentialRank pr.
+        /// </summary>
         public static bool WillKill(this Rank rank, PotentialRank pr)
         {
             return rank switch
@@ -305,6 +346,9 @@ namespace StrAItego.Game
             };
         }
 
+        /// <summary>
+        /// True if a given Rank will kill or suicide against a piece that has PotentialRank pr.
+        /// </summary>
         public static bool WillKillOrSuicide(this Rank rank, PotentialRank pr)
         {
             return rank switch
@@ -316,122 +360,14 @@ namespace StrAItego.Game
                 _ => (pr & ((rank + 1).ToPotentialRank() - 1)) == 0,
             };
         }
-    }
 
-
-    public enum Outcome : byte
-    {
-        Defeat,
-        Tie,
-        Victory
-    }
-
-    public enum Unit : byte
-    {
-        None,
-        RedFlag,
-        RedSpy,
-        RedScout,
-        RedMiner,
-        RedSergeant,
-        RedLieutenant,
-        RedCaptain,
-        RedMajor,
-        RedColonel,
-        RedGeneral,
-        RedMarshal,
-        RedBomb,
-        BlueFlag,
-        BlueSpy,
-        BlueScout,
-        BlueMiner,
-        BlueSergeant,
-        BlueLieutenant,
-        BlueCaptain,
-        BlueMajor,
-        BlueColonel,
-        BlueGeneral,
-        BlueMarshal,
-        BlueBomb
-    }
-
-    [Flags]
-    public enum PotentialRank : int
-    {
-        // This enum works as a bitfield.
-        // Each bit represents whether or not a unit could possibly be of a certain rank. The first bit marks the team.
-        // [FLAG][SPY][SCOUT][MINER][SERGEANT][LIEUTENANT][CAPTAIN][MAJOR][COLONEL][GENERAL][MARSHAL][BOMB]
-        // This enum makes it easier to work with this format.
-        None = 0,
-        Bomb = 1,
-        Marshal = 2,
-        General = 4,
-        Colonel = 8,
-        Major = 16,
-        Captain = 32,
-        Lieutenant = 64,
-        Sergeant = 128,
-        Miner = 256,
-        Scout = 512,
-        Spy = 1024,
-        NotBombOrFlag = 2046,
-        Flag = 2048,
-        BombOrFlag = 2049,
-        NotFlag = 2047,
-        NotSpy = 3071,
-        NotScout = 3583,
-        NotMiner = 3839,
-        NotSergeant = 3967,
-        NotLieutenant = 4031,
-        NotCaptain = 4063,
-        NotMajor = 4079,
-        NotColonel = 4087,
-        NotGeneral = 4091,
-        NotMarshal = 4093,
-        NotBomb = 4094,
-        Any = 4095
-    }
-
-    public enum Rank : byte
-    {
-        None,
-        Flag,
-        Spy,
-        Scout,
-        Miner,
-        Sergeant,
-        Lieutenant,
-        Captain,
-        Major,
-        Colonel,
-        General,
-        Marshal,
-        Bomb
-    }
-
-    public enum Team : int
-    {
-        Red, Blue, Neither, Both
-    }
-
-    public enum Square : int
-    {
-        // Representation in text is vertically flipped (e.g. North = Down)
-        A1, B1, C1, D1, E1, F1, G1, H1, J1, K1, // 0-39
-        A2, B2, C2, D2, E2, F2, G2, H2, J2, K2,
-        A3, B3, C3, D3, E3, F3, G3, H3, J3, K3,
-        A4, B4, C4, D4, E4, F4, G4, H4, J4, K4,
-        A5, B5, E5, F5, J5, K5, // 40-51
-        A6, B6, E6, F6, J6, K6,
-        A7, B7, C7, D7, E7, F7, G7, H7, J7, K7, // 52-91
-        A8, B8, C8, D8, E8, F8, G8, H8, J8, K8,
-        A9, B9, C9, D9, E9, F9, G9, H9, J9, K9,
-        A10, B10, C10, D10, E10, F10, G10, H10, J10, K10,
-        None                                             // 92 (out of bounds)
-    }
-
-    public enum Direction : int
-    {
-        North, East, South, West
+        /// <summary>
+        /// True if only a single Rank could match this PotentialRank.
+        /// </summary>
+        public static bool IsDiscovered(this PotentialRank info)
+        {
+            bool res = info > 0 && (info & (info - 1)) == 0;
+            return res;
+        }
     }
 }

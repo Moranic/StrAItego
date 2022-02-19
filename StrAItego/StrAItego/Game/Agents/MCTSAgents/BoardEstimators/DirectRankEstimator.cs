@@ -40,7 +40,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
             int[] seenOfRank = new int[13];
             int[] knownOfRank = new int[13];
             for(int i = 0; i < 40; i++) {
-                if (Board.UnitKnown(pieces[i].PotentialRank)) {
+                if (pieces[i].IsDiscovered) {
                     knownOfRank[(int)pieces[i].Rank]++;
                 }
             }
@@ -53,7 +53,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
                 for (int j = 0; j < 12; j++)
                     rankcost[j] = 1000000 - (int)(prob[j] * 1000000);
                 Piece p = pieces[i];
-                if (Board.UnitKnown(p.PotentialRank)) {
+                if (p.IsDiscovered) {
                     for(int j = 0; j < 40; j++) {
                         costs[i, j] = 10000000;
                     }
@@ -78,7 +78,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 
             //Sanity check
             for(int i = 0; i < 40; i++) {
-                if (Board.UnitKnown(pieces[i].PotentialRank) && pieces[i].Rank != newRanks[i])
+                if (pieces[i].IsDiscovered && pieces[i].Rank != newRanks[i])
                     throw new Exception("Replaced known piece rank!");
             }
 

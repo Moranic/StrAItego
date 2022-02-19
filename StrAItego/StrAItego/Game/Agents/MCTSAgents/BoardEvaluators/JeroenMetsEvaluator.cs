@@ -18,7 +18,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             int bluePoints = 11087;
 
             for(Square i = Square.A1; i <= Square.K10; i++) {
-                Piece p = b.OnSquare(i);
+                Piece p = b[i];
                 if (p == null)
                     continue;
                 
@@ -26,7 +26,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
                 int points = 0;
                 if (!p.HasMoved && !(p.Rank == Rank.Bomb || p.Rank == Rank.Flag))
                     points += 100;
-                if (!Board.UnitKnown(p.PotentialRank))
+                if (!p.PotentialRank.IsDiscovered())
                     points += discoveryValue[(int)p.Rank - 1];
                 points += conquestValue[(int)p.Rank - 1];
 

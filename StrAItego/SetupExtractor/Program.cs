@@ -248,7 +248,7 @@ namespace StradosExtractor
                             int moveid = int.Parse(splitline[i]);
                             // Make move
                             (Square from, Square to) = Board.GetMoveAtIndex(moveid);
-                            Move move = new Move(b.OnSquare(from), from, to, b.OnSquare(to), moveid);
+                            Move move = new Move(b[from], from, to, b[to], moveid);
                             if (move.Attacker == null) {
                                 issues.Add(c);
                                 issues.Add(i);
@@ -330,7 +330,7 @@ namespace StradosExtractor
                                 int moveid = int.Parse(splitline[i]);
                                 // Make move
                                 (Square from, Square to) = Board.GetMoveAtIndex(moveid);
-                                Move move = new Move(b.OnSquare(from), from, to, b.OnSquare(to), moveid);
+                                Move move = new Move(b[from], from, to, b[to], moveid);
                                 if (move.Attacker == null) {
                                     issues.Add(c);
                                     issues.Add(i);
@@ -409,7 +409,7 @@ namespace StradosExtractor
                                 sw.WriteLine($";{(splitline[0] == "0" ? inverted ? "1" : "0" : inverted ? "0" : "1")}");
                                 // Make move
                                 (Square from, Square to) = Board.GetMoveAtIndex(moveid);
-                                Move move = new Move(b.OnSquare(from), from, to, b.OnSquare(to), moveid);
+                                Move move = new Move(b[from], from, to, b[to], moveid);
                                 if (move.Attacker == null) {
                                     issues.Add(c);
                                     issues.Add(i);
@@ -488,7 +488,7 @@ namespace StradosExtractor
                                 sw.WriteLine($";{moveid}");
                                 // Make move
                                 (Square from, Square to) = Board.GetMoveAtIndex(moveid);
-                                Move move = new Move(b.OnSquare(from), from, to, b.OnSquare(to), moveid);
+                                Move move = new Move(b[from], from, to, b[to], moveid);
                                 if (move.Attacker == null) {
                                     issues.Add(c);
                                     issues.Add(i);
