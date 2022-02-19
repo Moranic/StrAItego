@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class JeroenMetsEvaluator : IBoardEvaluator
+    class JeroenMetsEvaluator : BoardEvaluator
     {
-        
+        public JeroenMetsEvaluator() : base("Jeroen Mets Evaluator") { }
 
-        public float EvaluateNode(Node n, Random r = null) {
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -22,7 +18,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             int bluePoints = 11087;
 
             for(Square i = Square.A1; i <= Square.K10; i++) {
-                Piece p = b.OnSquare(i);
+                Piece p = b[i];
                 if (p == null)
                     continue;
                 
@@ -30,7 +26,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
                 int points = 0;
                 if (!p.HasMoved && !(p.Rank == Rank.Bomb || p.Rank == Rank.Flag))
                     points += 100;
-                if (!Board.UnitKnown(p.PotentialRank))
+                if (!p.PotentialRank.IsDiscovered())
                     points += discoveryValue[(int)p.Rank - 1];
                 points += conquestValue[(int)p.Rank - 1];
 
@@ -42,10 +38,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 
             float score = (redPoints / (float)bluePoints) / 11087f;
             return score;
-        }
-
-        public override string ToString() {
-            return "Jeroen Mets Evaluator";
         }
 
         static int[] discoveryValue = new int[] { 0, 0, 0, 20, 5, 10, 15, 20, 25, 50, 100, 200 };

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StrAItego.Game.Agents;
 using StrAItego.Game.TFLite;
 
 namespace StrAItego.Game.Agents.NaiveNNAgent
@@ -13,9 +9,7 @@ namespace StrAItego.Game.Agents.NaiveNNAgent
         float[] binBoard = new float[3312];
         TFLiteModel model;
 
-        public NaiveNNAgent() : base() {
-            name = "Naive NN. Agent";
-        }
+        public NaiveNNAgent() : base("Naive NN. Agent") { }
 
         public override void Dispose() {
             base.Dispose();

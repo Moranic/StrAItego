@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using Tensorflow;
 using Tensorflow.Keras;
 using Tensorflow.Keras.ArgsDefinition;
 using Tensorflow.Keras.Engine;
-using static Tensorflow.KerasApi;
 using static Tensorflow.Binding;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System.Xml;
-using System.Threading;
-using System.Collections.Generic;
-using System.Linq;
+using static Tensorflow.KerasApi;
 
-namespace NeuralNetworkTrainer.NeuralNetworks
+namespace NeuralNetworkModels.NeuralNetworks
 {
     class DirectRankEstimationNet : Model
     {

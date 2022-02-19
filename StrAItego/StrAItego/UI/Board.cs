@@ -1,13 +1,8 @@
-﻿using StrAItego.Game;
-using StrAItego.Properties;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using StrAItego.Game;
 
 namespace StrAItego.UI
 {
@@ -48,8 +43,8 @@ namespace StrAItego.UI
         public void DrawBoard(Game.Board board, Team asTeam) {
             for (Square i = Square.A1; i <= Square.K10; i++) {
                 Square index = game.GetTurn == Team.Red ? i : 91 - i;
-                Unit u = board.OnSquare(index)?.GetUnit() ?? Unit.None;
-                PotentialRank info = board.InfoOnSquare(index);
+                Unit u = board[index];
+                PotentialRank info = board[index];
                 if (game.GetTurn == Team.Blue && u > Unit.None)
                     u = u > Unit.RedBomb ? u - 12 : u + 12;
                 tiles[(int)i].MakeVisible(u, info, asTeam);
@@ -93,8 +88,8 @@ namespace StrAItego.UI
             if (setup) {
                 Square origin = e.Move.Origin;
                 Square destination = e.Move.Destination;
-                Unit attackedUnit = e.Move.Defender.GetUnit();
-                Unit movedUnit = e.Move.Attacker.GetUnit();
+                Unit attackedUnit = e.Move.Defender;
+                Unit movedUnit = e.Move.Attacker;
                 tiles[(int)origin].MakeVisible(attackedUnit, e.Move.InfoOfDefender, Team.Both);
                 tiles[(int)destination].MakeVisible(movedUnit, e.Move.InfoOfAttacker, Team.Both);
                 return;

@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StrAItego.Game.Agents.RandomAgent.RandomAvoidDefeats
 {
     class RandomAvoidsUnitLossAgent : RandomAgent
     {
-        public RandomAvoidsUnitLossAgent() {
-            name = "Random (Avoids Attacker Loss) Agent";
-        }
+        public RandomAvoidsUnitLossAgent() : base("Random (Avoids Attacker Loss) Agent") { }
         public override Move? GetMove(Board board, GameLogger gameLogger) {
             List<Move> moves = board.GetValidMoves(Team.Red);
             if (moves.Count == 0)
                 return null;
-            List<Move> noDefeatMoves = moves.Where(x => (Board.UnitKnown(x.InfoOfDefender) &&
-                                                        Board.DoAttack(x.Attacker, x.Defender) == Outcome.Victory) ||
-                                                        !Board.UnitKnown(x.InfoOfDefender)).ToList();
+            List<Move> noDefeatMoves = moves.Where(x => (x.InfoOfDefender.IsDiscovered() &&
+                                                        x.Attacker.Attacks(x.Defender) == Outcome.Victory) ||
+                                                        !x.InfoOfDefender.IsDiscovered()).ToList();
             if(noDefeatMoves.Count == 0)
                 return moves[r.Next(moves.Count)];
             return noDefeatMoves[r.Next(noDefeatMoves.Count)];

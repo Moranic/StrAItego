@@ -1,15 +1,13 @@
-﻿using StrAItego.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using StrAItego.UI;
 
 namespace StrAItego.Game.Agents.HumanAgent
 {
-    public class HumanAgent : IAgent
+    public class HumanAgent : BaseAgent
     {
         Square From { get; set; }
         Square To { get; set; }
@@ -18,9 +16,10 @@ namespace StrAItego.Game.Agents.HumanAgent
         Team team;
         UI.Board UIboard;
         bool setupDone;
-        string name = "Human Agent";
+        
+        public HumanAgent() : base("Human Agent") { }
 
-        public Move? GetMove(Board board, GameLogger gameLogger) {
+        public override Move? GetMove(Board board, GameLogger gameLogger) {
             if (team == Team.Blue)
                 board.Invert();
             From = Square.None;
@@ -48,7 +47,7 @@ namespace StrAItego.Game.Agents.HumanAgent
             To = e.To;
         }
 
-        public Rank[] GetSetup(Board board) {
+        public override Rank[] GetSetup(Board board) {
             Rank[] units = {
             Rank.Bomb, Rank.Bomb, Rank.Bomb, Rank.Bomb, Rank.Bomb, Rank.Bomb,
             Rank.Marshal,
@@ -93,7 +92,7 @@ namespace StrAItego.Game.Agents.HumanAgent
                     break;
                 if ((team == Team.Red && From <= Square.K4 && To <= Square.K4) || 
                     (team == Team.Blue && From >= Square.A7 && To >= Square.A7)) {
-                    Move m = new Move(board.OnSquare(From), From, To, board.OnSquare(To), 0);
+                    Move m = new Move(board[From], From, To, board[To], 0);
                     board.MakeMove(m, true);
                     SetupMoveMade.Invoke(this, new MoveMadeEventArgs(m));
                 }
@@ -106,7 +105,7 @@ namespace StrAItego.Game.Agents.HumanAgent
             if (team == Team.Blue)
                 board.Invert();
             for (Square i = Square.A1; i <= Square.K4; i++) {
-                units[(int)i] = board.OnSquare(i).Rank;
+                units[(int)i] = board[i];
             }
             return units;
         }
@@ -116,15 +115,11 @@ namespace StrAItego.Game.Agents.HumanAgent
             waitResetEvent.Set();
         }
 
-        public override string ToString() {
-            return name;
-        }
-
-        public IAgentParameters GetParameters() {
+        public override IAgentParameters GetParameters() {
             return new HumanAgentParameters();
         }
 
-        public void SetParameters(IAgentParameters agentParameters) {
+        public override void SetParameters(IAgentParameters agentParameters) {
             HumanAgentParameters parameters = agentParameters as HumanAgentParameters;
             team = parameters.AsTeam;
             parameters.Board.AttemptMove += OnAttemptedMove;
@@ -133,11 +128,11 @@ namespace StrAItego.Game.Agents.HumanAgent
             name = parameters.ToString();
         }
 
-        public bool IsAI() {
+        public override bool IsAI() {
             return false;
         }
 
-        public void Dispose() {
+        public override void Dispose() {
             waitResetEvent = null;
             SetupMoveMade = null;
             UIboard = null;

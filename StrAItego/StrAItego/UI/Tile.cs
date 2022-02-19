@@ -1,14 +1,8 @@
-﻿using StrAItego.Game;
-using StrAItego.Properties;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
+using StrAItego.Game;
+using StrAItego.Properties;
 
 namespace StrAItego.UI
 {
@@ -93,7 +87,7 @@ namespace StrAItego.UI
         public void MakeVisible(Unit unit, PotentialRank info, Team asTeam) {
             latestInfo = info;
             Team ofTeam = unit == Unit.None ? Team.Neither : unit > Unit.RedBomb ? Team.Blue : Team.Red;
-            bool reveal = asTeam == Team.Both || ofTeam == asTeam || Game.Board.UnitKnown(info) || unit == Unit.None;
+            bool reveal = asTeam == Team.Both || ofTeam == asTeam || info.IsDiscovered() || unit == Unit.None;
             int newIndex = reveal ? unit == Unit.None ? -1 : 
                                 (int)unit + (int)ofTeam : 
                                 ofTeam == Team.Red ? 

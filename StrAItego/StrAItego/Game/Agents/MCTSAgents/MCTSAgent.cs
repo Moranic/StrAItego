@@ -1,11 +1,8 @@
-﻿using StrAItego.Game.Agents.MCTSAgents.BoardEstimators;
-using StrAItego.Game.Agents.MCTSAgents.BoardEvaluators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StrAItego.Game.Agents.MCTSAgents.BoardEstimators;
+using StrAItego.Game.Agents.MCTSAgents.BoardEvaluators;
 
 namespace StrAItego.Game.Agents.MCTSAgents
 {
@@ -25,9 +22,7 @@ namespace StrAItego.Game.Agents.MCTSAgents
         protected Type nodeImplementation = typeof(Node);
 
 
-        public MCTSAgent() : base() {
-            name = "MCTS Agent";
-        }
+        public MCTSAgent(string agentName = "MCTS Agent") : base(agentName) { }
 
         public override Move? GetMove(Board board, GameLogger gameLogger) {
             if (gameLogger != null)
@@ -239,7 +234,7 @@ namespace StrAItego.Game.Agents.MCTSAgents
                     children[i++] = null;
             }
             nextMoves = currentBoard.GetValidMoves(team);
-            if (Board.GetRank(m.Defender) == Rank.Flag || nextMoves.Count == 0)
+            if (m.Defender == Rank.Flag || nextMoves.Count == 0)
                 winner = parent.team;
             evaluated = false;
         }

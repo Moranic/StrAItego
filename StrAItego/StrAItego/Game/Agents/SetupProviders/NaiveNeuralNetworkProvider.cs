@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows.Forms;
-using NumSharp;
 using StrAItego.Game.TFLite;
 
 namespace StrAItego.Game.Agents.SetupProviders

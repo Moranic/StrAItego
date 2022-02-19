@@ -1,22 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 {
-    class OmniscientEstimator : IBoardEstimator
+    class OmniscientEstimator : BoardEstimator
     {
-        public void Dispose() {
-        }
+        public OmniscientEstimator() : base("Omniscient Estimator") { }
 
-        public Board EstimateBoard(Board fromBoard, Random r = null) {
+
+        public override Board EstimateBoard(Board fromBoard, Random r = null) {
             return new Board(fromBoard);
-        }
-
-        public override string ToString() {
-            return "Omniscience (cheating)";
         }
     }
 }

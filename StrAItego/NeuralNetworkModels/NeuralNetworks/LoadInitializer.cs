@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using NumSharp;
 using Tensorflow;
-using Tensorflow.Keras;
-using Tensorflow.Keras.ArgsDefinition;
-using Tensorflow.Keras.Engine;
-using static Tensorflow.KerasApi;
-using static Tensorflow.Binding;
 using Tensorflow.Eager;
-using NumSharp;
 
-namespace NeuralNetworkTrainer.NeuralNetworks
+namespace NeuralNetworkModels.NeuralNetworks
 {
     class LoadInitializer : IInitializer
     {

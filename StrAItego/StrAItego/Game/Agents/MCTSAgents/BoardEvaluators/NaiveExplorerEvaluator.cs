@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
 {
-    class NaiveExplorerEvaluator : IBoardEvaluator
+    class NaiveExplorerEvaluator : BoardEvaluator
     {
         NaiveUnitCountEvaluator nuce = new NaiveUnitCountEvaluator();
 
-        public float EvaluateNode(Node n, Random r = null) {
+        public NaiveExplorerEvaluator() : base("Naive Explorer") { }
+
+        public override float EvaluateNode(Node n, Random r = null) {
             if (n.Winner == Team.Red)
                 return 1;
             if (n.Winner == Team.Blue)
@@ -21,7 +19,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             float friendlies = 0;
             float enemies = 0;
             for(Square i = Square.A1; i <= Square.K10; i++) {
-                Team t = Board.OfTeam(n.Board.OnSquare(i));
+                Team t = n.Board[i];
                 if (t == Team.Neither)
                     continue;
                 if (t == Team.Red)
@@ -33,10 +31,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEvaluators
             float score = ((480 - friendlies) * (480 - friendlies) / 230400 + (enemies * enemies / 230400)) / 2;
 
             return (unitValue + (score / 20)) / 1.05f;
-        }
-
-        public override string ToString() {
-            return "Naive Explorer";
         }
     }
 }

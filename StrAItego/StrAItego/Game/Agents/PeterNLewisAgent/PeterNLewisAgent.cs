@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StrAItego.Game.Agents.PeterNLewisAgent
 {
@@ -82,9 +80,7 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
         Queue<uint> CRC = new Queue<uint>();
         string moveReason = "";
 
-        public PeterNLewisAgent() : base() {
-            name = "Peter N. Lewis Agent";
-        }
+        public PeterNLewisAgent() : base("Peter N. Lewis Agent") { }
 
         public override Move? GetMove(Board board, GameLogger gameLogger) {
             Move? m = FigureOutMove(board);
@@ -113,7 +109,7 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
             if(board.UnitCount(Rank.Spy, Team.Blue) > 0) {     // Check if the enemy spy is still on the board. If not, skip this step.
                 List<Move> marshalMoves = moves.Where(x => x.Attacker.Rank == Rank.Marshal).ToList();
                 
-                int unknowns = marshalMoves.Count(x => !Board.UnitKnown(x.InfoOfDefender) && x.Defender != null);
+                int unknowns = marshalMoves.Count(x => !x.InfoOfDefender.IsDiscovered() && x.Defender != null);
                 if(unknowns > 0) {
                     int base_index = 0;
                     Square hasMarshal = marshalMoves.First().Origin;
@@ -125,14 +121,14 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
                         base_index += 8;
                     
                     foreach(Move m in marshalMoves) {
-                        if (!Board.UnitKnown(m.InfoOfDefender) && m.Defender != null) {
+                        if (!m.InfoOfDefender.IsDiscovered() && m.Defender != null) {
                             int index = base_index;
 
                             if (moves.Exists(x => x.Attacker.Rank >= Rank.Scout && x.Attacker.Rank <= Rank.Captain && x.Attacker.Rank != Rank.Miner && x.Destination == m.Destination))
                                 index += 4;
 
-                            if (Board.GetAdjacentSquares(m.Destination).Aggregate(0, 
-                                (x, y) => x + Board.OfTeam(board.OnSquare(y)) == Team.Blue && !Board.UnitKnown(board.InfoOnSquare(y)) ? 1 : 0) > 0)
+                            if (m.Destination.AdjacentSquares().Aggregate(0, 
+                                (x, y) => x + (board[y] == Team.Blue && !board[y].IsDiscovered ? 1 : 0)) > 0)
                                 index += 2;							
 
                             if ((m.InfoOfDefender & PotentialRank.NotBombOrFlag) == m.InfoOfDefender)
@@ -165,20 +161,20 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
 
             //ATTACK WEAKER
             for(Square i = Square.A1; i < Square.None; i++) {
-                if(Board.OfTeam(board.OnSquare(i)) == Team.Blue) {
-                    PotentialRank enemy = board.InfoOnSquare(i);
+                if(board[i] == Team.Blue) {
+                    PotentialRank enemy = board[i];
 
                     Move? bestDir = null;
                     bool isBestRevealed = true;
                     Rank bestRank = Rank.Bomb;
-                    Square[] adjacent = Board.GetAdjacentSquares(i);
+                    Square[] adjacent = i.AdjacentSquares();
 
                     List<Move> directAttackingMoves = moves.Where(x => x.Destination == i && adjacent.Contains(x.Origin)).ToList();
                     foreach(Move m in directAttackingMoves) {
-                        Rank attackerRank = Board.GetRank(m.Attacker);
-                        if (!Board.CouldKill(attackerRank, enemy)) {
-                            if (Board.WillKill(attackerRank, enemy)) {
-                                bool thisRevealed = Board.UnitKnown(m.InfoOfAttacker);
+                        Rank attackerRank = m.Attacker;
+                        if (!enemy.CouldKill(attackerRank)) {
+                            if (attackerRank.WillKill(enemy)) {
+                                bool thisRevealed = m.InfoOfAttacker.IsDiscovered();
                                 if (isBestRevealed || !thisRevealed) {
                                     if (bestDir is null || attackerRank < bestRank) {
                                         bestDir = m;
@@ -199,12 +195,10 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
             //EXPLORE ATTACK
             foreach(Rank x in LowlyRanks) {
                 for (Square i = Square.K10; i >= Square.A1; i--) {
-                    Piece u = board.OnSquare(i);
-                    Team t = Board.OfTeam(u);
-                    Rank r = Board.GetRank(u);
-                    if(x == r && t == Team.Red) {
-                        List<Move> exploreMoves = moves.Where(x => x.Origin == i && x.Defender != null && !Board.UnitKnown(x.InfoOfDefender)).ToList();
-                        Square[] adjacent = Board.GetAdjacentSquares(i);
+                    Piece u = board[i];
+                    if(x == u && u == Team.Red) {
+                        List<Move> exploreMoves = moves.Where(x => x.Origin == i && x.Defender != null && !x.InfoOfDefender.IsDiscovered()).ToList();
+                        Square[] adjacent = i.AdjacentSquares();
                         foreach (Square s in adjacent)
                             if (exploreMoves.Exists(x => x.Destination == s)) {
                                 Move exploreMove = exploreMoves.Find(x => x.Destination == s);
@@ -219,19 +213,19 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
 
             //RETREAT
             for (Square i = Square.K10; i >= Square.A1; i--) {
-                Piece u = board.OnSquare(i);
-                Rank r = Board.GetRank(u);
-                PotentialRank pr = board.InfoOnSquare(i);
-                if(Board.OfTeam(u) == Team.Red && (pr & PotentialRank.BombOrFlag) == 0) {
+                Piece u = board[i];
+                Rank r = u;
+                PotentialRank pr = board[i];
+                if(u == Team.Red && (pr & PotentialRank.BombOrFlag) == 0) {
                     List<Move> retreatMoves = moves.Where(x => x.Origin == i).ToList();
                     Move? retreatMove = null;
                     foreach (Move m in retreatMoves) {
-                        if(Board.WillKill(r, m.InfoOfDefender)) {
+                        if(r.WillKill(m.InfoOfDefender)) {
                             int bestPath = 1000;
                             for(Square to = Square.K10; to >= Square.A1; to--) {
                                 int thisPath = bestPath;
-                                if(Board.OfTeam(board.OnSquare(to)) == Team.Blue 
-                                    && (Board.UnitKnown(board.InfoOnSquare(to)) || Board.WillKill(r, board.InfoOnSquare(to)))) {
+                                if(board[to] == Team.Blue 
+                                    && (board[to].IsDiscovered || r.WillKill(board[to]))) {
                                     Move? newMove = FindSafePath(board, retreatMoves, false, true, i, to, ref bestPath);
                                     if (newMove != null && OKMove(board, (Move)newMove))
                                         retreatMove = newMove;
@@ -268,20 +262,19 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
             int bestpath = 1000;
             Move? attackDistantMove = null;
             for(Square i = Square.A1; i <= Square.K10; i++) {
-                Team ot = Board.OfTeam(board.OnSquare(i));
-                if (ot == Team.Blue) {
-                    PotentialRank possibilities = board.InfoOnSquare(i);
-                    PotentialRank danger = Board.GetAdjacentSquares(i).Aggregate(PotentialRank.None,
-                                                                                (x, y) => Board.OfTeam(board.OnSquare(y)) == Team.Blue ? x | board.InfoOnSquare(y)
+                if (board[i] == Team.Blue) {
+                    PotentialRank possibilities = board[i];
+                    PotentialRank danger = i.AdjacentSquares().Aggregate(PotentialRank.None,
+                                                                                (x, y) => board[y] == Team.Blue ? x | board[y]
                                                                                                                                       : x);
                     if ((possibilities & (PotentialRank.Bomb | PotentialRank.Marshal)) != (PotentialRank.Bomb | PotentialRank.Marshal)) {
                         for(Square j = Square.A1; j <= Square.K10; j++) {
-                            Piece u = board.OnSquare(j);
-                            Team t = Board.OfTeam(u);
+                            Piece u = board[j];
+                            Team t = u;
                             if(t == Team.Red) {
-                                Rank r = Board.GetRank(u);
-                                if(Board.WillKill(r, possibilities)) {
-                                    if (r >= Rank.Captain || !Board.CouldKill(r, danger)) {
+                                Rank r = u;
+                                if(r.WillKill(possibilities)) {
+                                    if (r >= Rank.Captain || !danger.CouldKill(r)) {
                                         int thisPath = bestpath;
                                         Move? newMove = FindSafePath(board, moves, true, false, j, i, ref thisPath);
                                         if (newMove != null && OKMove(board, (Move)newMove)) {
@@ -304,13 +297,10 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
             bestpath = 1000;
             Move? exploreDistantMove = null;
             for (Square i = Square.A1; i <= Square.K10; i++) {
-                Team ot = Board.OfTeam(board.OnSquare(i));
-                if (ot == Team.Blue && !Board.UnitKnown(board.InfoOnSquare(i))) {
+                if (board[i] == Team.Blue && !board[i].IsDiscovered) {
                     for (Square j = Square.A1; j <= Square.K10; j++) {
-                        Piece u = board.OnSquare(j);
-                        Team t = Board.OfTeam(u);
-                        Rank r = Board.GetRank(u);
-                        if(t == Team.Red && LowlyRanks.Contains(r)) {
+                        Piece u = board[j];
+                        if(u == Team.Red && LowlyRanks.Contains(u)) {
                             int thisPath = bestpath;
                             Move? newMove = FindSafePath(board, moves, false, true, j, i, ref thisPath);
                             if (newMove != null && OKMove(board, (Move)newMove)) {
@@ -330,17 +320,15 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
             bestpath = 1000;
             Move? attackKnownDistantMove = null;
             for (Square i = Square.A1; i <= Square.K10; i++) {
-                Team ot = Board.OfTeam(board.OnSquare(i));
-                if (ot == Team.Blue) {
-                    PotentialRank possibilities = board.InfoOnSquare(i);
+                if (board[i] == Team.Blue) {
+                    PotentialRank possibilities = board[i];
                     
                     if ((possibilities & (PotentialRank.Bomb | PotentialRank.Marshal)) != (PotentialRank.Bomb | PotentialRank.Marshal)) {
                         for (Square j = Square.A1; j <= Square.K10; j++) {
-                            Piece u = board.OnSquare(j);
-                            Team t = Board.OfTeam(u);
-                            if (t == Team.Red) {
-                                Rank r = Board.GetRank(u);
-                                if (Board.WillKillOrSuicide(r, possibilities)) {
+                            Piece u = board[j];
+                            if (u == Team.Red) {
+                                Rank r = u;
+                                if (r.WillKillOrSuicide(possibilities)) {
                                     int thisPath = bestpath;
                                     Move? newMove = FindSafePath(board, moves, true, true, j, i, ref thisPath);
                                     if (newMove != null && OKMove(board, (Move)newMove)) {
@@ -363,7 +351,7 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
             // This was never implemented by the original author.
 
             //MOVE FORWARD
-            List<Move> forwardMoves = moves.Where(x => Board.GetAdjacentSquare(x.Origin, Direction.North) == x.Destination).ToList();
+            List<Move> forwardMoves = moves.Where(x => x.Origin.AdjacentSquare(Direction.North) == x.Destination).ToList();
             if(forwardMoves.Count > 0) {
                 Move forwardMove = forwardMoves.Aggregate((x, y) => y.Origin > x.Origin && OKMove(board, y) ? y : x);
                 moveReason = "MOVE FORWARD";
@@ -384,11 +372,11 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
         }
 
         static int CountUnknownEnemiesNoKnowns(Board board, Square i) {
-            Square[] adjacent = Board.GetAdjacentSquares(i);
+            Square[] adjacent = i.AdjacentSquares();
             int unknowns = 0;
             foreach(Square j in adjacent) {
-                if(Board.OfTeam(board.OnSquare(i)) == Team.Blue && board.OnSquare(i) != null) {
-                    if (Board.UnitKnown(board.InfoOnSquare(j)))
+                if(board[i] == Team.Blue && board[i] != null) {
+                    if (board[j].IsDiscovered)
                         return 0;
                     else
                         unknowns++;
@@ -398,15 +386,15 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
         }
 
         static Square FindSafeSquare(Board board, Square sq) {
-            Rank rank = Board.GetRank(board.OnSquare(sq));
-            Square[] adjacent = Board.GetAdjacentSquares(sq);
+            Rank rank = board[sq];
+            Square[] adjacent = sq.AdjacentSquares();
             for(int d = 0; d < 4; d++) {
                 Square consider = adjacent[(2 + d) % 4];	// Try moving backwards first
                 
-                while(consider != Square.None && board.OnSquare(consider) == null) {
-                    Square[] adjacent2 = Board.GetAdjacentSquares(consider);
-                    PotentialRank adjacentdanger = adjacent2.Aggregate(PotentialRank.None, (x, y) => x & board.InfoOnSquare(y));
-                    if(!Board.CouldKill(rank, adjacentdanger)) {
+                while(consider != Square.None && board[consider] == null) {
+                    Square[] adjacent2 = consider.AdjacentSquares();
+                    PotentialRank adjacentdanger = adjacent2.Aggregate(PotentialRank.None, (x, y) => x & board[y]);
+                    if(!adjacentdanger.CouldKill(rank)) {
                         return consider;
                     }
                     if (rank != Rank.Scout)
@@ -444,16 +432,16 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
                     rankish = 0;
                 }
                 else if(i == m.Destination) {
-                    rankish = (int)Board.GetRank(m.Attacker);
+                    rankish = (int)(m.Attacker.Rank);
                 }
-                else if(board.OnSquare(i) == null) {
+                else if(board[i] == null) {
                     rankish = 0;
                 }
-                else if(Board.OfTeam(board.OnSquare(i)) == Team.Red) {
-                    rankish = (int)Board.GetRank(board.OnSquare(i));
+                else if(board[i] == Team.Red) {
+                    rankish = (int)board[i].Rank;
                 }
                 else {
-                    rankish = Board.UnitKnown(board.InfoOnSquare(i)) ? (int)Board.GetRank(board.OnSquare(i)) : 16;
+                    rankish = board[i].IsDiscovered ? (int)board[i].Rank : 16;
                 }
                 result += (uint)rankish;	// Author admits this is not a brilliant CRC.
                 result = result * 11 + (result >> 25);
@@ -463,12 +451,12 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
         }
 
         static Move? FindSafePath(Board board, List<Move> moves, bool very_safe, bool suicide_ok, Square from, Square to, ref int best_path) {
-            Piece u = board.OnSquare(from);
-            Rank r = Board.GetRank(u);
-            int from_row = Board.GetRow(from);
-            int from_col = Board.GetColumn(from);
-            int to_row = Board.GetRow(to);
-            int to_col = Board.GetColumn(to);
+            Piece u = board[from];
+            Rank r = u;
+            int from_row = from.Row();
+            int from_col = from.Column();
+            int to_row = to.Row();
+            int to_col = to.Column();
 
             if (Math.Abs(from_row - to_row) + Math.Abs(from_col - to_col) > best_path)
                 return null;
@@ -496,22 +484,19 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
                 queue_start++;
 
                 for(Direction d = Direction.North; d <= Direction.West; d++) {	//Scout moves were not implemented.
-                    Square rc = Board.GetAdjacentSquare(curr, d);
-                    if(rc != Square.None && path_length_to[(int)rc] == -1 && board.OnSquare(rc) != null) {
-                        Square[] adjacent = Board.GetAdjacentSquares(rc);
+                    Square rc = curr.AdjacentSquare(d);
+                    if(rc != Square.None && path_length_to[(int)rc] == -1 && board[rc] != null) {
+                        Square[] adjacent = rc.AdjacentSquares();
                         PotentialRank dangers = adjacent.Aggregate(PotentialRank.None, (x, y) => x &
-                                            (Board.OfTeam(board.OnSquare(y)) == Team.Blue ? very_safe ? board.InfoOnSquare(y)
-                                                                                                      : Board.UnitKnown(board.InfoOnSquare(y)) ? board.InfoOnSquare(y)
-                                                                                                                                               : PotentialRank.None
-                                                                                          : PotentialRank.None));
-                        if(suicide_ok ? !Board.CouldKillSafely(r, dangers)
-                                      : !Board.CouldKill(r, dangers)) {
+                                            (board[y] == Team.Blue ? very_safe ? board[y] : board[y].PotentialRank.IsDiscovered() ? board[y] : PotentialRank.None : PotentialRank.None));
+                        if(suicide_ok ? !dangers.CouldKillSafely(r)
+                                      : !dangers.CouldKill(r)) {
                             path_length_to[(int)rc] = current_len + 1;
                             if (adjacent.Contains(to)) {
                                 best_path = current_len + 1;
                                 while (current_len > 0) {
                                     for (Direction bd = Direction.North; bd <= Direction.West; bd++) {
-                                        Square backrc = Board.GetAdjacentSquare(rc, bd);
+                                        Square backrc = rc.AdjacentSquare(bd);
 
                                         if (backrc != Square.None && path_length_to[(int)backrc] == current_len) {
                                             rc = backrc;
@@ -550,10 +535,6 @@ namespace StrAItego.Game.Agents.PeterNLewisAgent
             base.SetParameters(agentParameters);
             PeterNLewisAgentParameters parameters = (PeterNLewisAgentParameters)agentParameters;
             name = parameters.ToString();
-        }
-
-        public override string ToString() {
-            return name;
         }
 
         public override void Dispose() {

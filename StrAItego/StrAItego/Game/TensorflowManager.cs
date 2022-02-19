@@ -1,20 +1,16 @@
-﻿using NumSharp;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
+using NeuralNetworkModels.NeuralNetworks;
+using NumSharp;
 using Tensorflow;
 using static Tensorflow.Binding;
-using Tensorflow.Graphs;
-using NeuralNetworkTrainer.NeuralNetworks;
-using System.Diagnostics;
-using System.Windows.Forms;
 
 namespace StrAItego.Game
 {
+    [Obsolete("The TensorflowManager is obsolete, use TFLiteManager instead.")]
     public static class TensorflowManager
     {
         static ConcurrentQueue<PredictionRequest> requestQueue = new ConcurrentQueue<PredictionRequest>();

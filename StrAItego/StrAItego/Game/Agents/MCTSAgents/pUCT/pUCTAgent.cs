@@ -1,9 +1,6 @@
-﻿using StrAItego.Game.Agents.MCTSAgents.NN;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StrAItego.Game.Agents.MCTSAgents.NN;
 
 namespace StrAItego.Game.Agents.MCTSAgents.pUCT
 {
@@ -13,9 +10,7 @@ namespace StrAItego.Game.Agents.MCTSAgents.pUCT
         float[] logLookupTable;
         float[] rootLookupTable;
 
-        public pUCTAgent() : base() {
-            name = "pUCT Agent";
-        }
+        public pUCTAgent() : base("pUCT Agent") { }
 
         protected override Move SelectMove(Node n) {
             List<Move> moves = n.GetMoves();

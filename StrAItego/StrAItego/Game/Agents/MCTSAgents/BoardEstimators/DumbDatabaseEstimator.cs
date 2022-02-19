@@ -1,13 +1,11 @@
-﻿using StrAItego.Game.Agents.SetupProviders.GravonSetups;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using StrAItego.Game.Agents.SetupProviders.GravonSetups;
 
 namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
 {
-    class DumbDatabaseEstimator : IBoardEstimator
+    class DumbDatabaseEstimator : BoardEstimator
     {
         static PotentialRank[][] database;
         static int[] dbfrequencies;
@@ -52,11 +50,9 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
             }
         }
 
-        public void Dispose() {
-            return;
-        }
+        public DumbDatabaseEstimator() : base("Dumb Database Estimator") { }
 
-        public Board EstimateBoard(Board fromBoard, Random r = null) {
+        public override Board EstimateBoard(Board fromBoard, Random r = null) {
             PotentialRank[] info = fromBoard.GetPieces(Team.Blue).Select(x => x.PotentialRank).ToArray();
             PotentialRank[] match = SearchDatabase(info);
 
@@ -81,10 +77,10 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
                 }
                 int[] assignments = HungarianAlgorithm.HungarianAlgorithm.FindAssignments(costs);
                 for (int i = 0; i < 40; i++)
-                    newRanks[i] = Board.PotentialRankToRank(match[assignments[i]]);
+                    newRanks[i] = match[assignments[i]].ToRank();
             }
             else {
-                newRanks = match.Select(x => Board.PotentialRankToRank(x)).ToArray();
+                newRanks = match.Select(x => x.ToRank()).ToArray();
             }
             Board newBoard = new Board(fromBoard);
             newBoard.EnterEstimation(newRanks);
@@ -128,10 +124,6 @@ namespace StrAItego.Game.Agents.MCTSAgents.BoardEstimators
                 }
             }
             return database[bestind];
-        }
-
-        public override string ToString() {
-            return "'Dumb' Database Estimator";
         }
 
         static PotentialRank[] StringToPotentialRanks(string setup) {

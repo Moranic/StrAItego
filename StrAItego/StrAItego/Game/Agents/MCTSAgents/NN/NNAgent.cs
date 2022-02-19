@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Emgu.TF.Lite;
+﻿using System.Linq;
 using StrAItego.Game.TFLite;
 
 namespace StrAItego.Game.Agents.MCTSAgents.NN
@@ -15,8 +8,10 @@ namespace StrAItego.Game.Agents.MCTSAgents.NN
         TFLiteModel model;
 
         protected float[] calcBuffer = new float[3312];
-        public NNAgent() : base() {
-            name = "NN Agent";
+
+        public NNAgent() : base("NN Agent") { }
+
+        public NNAgent(string agentName = "NN Agent") : base(agentName) {
             nodeImplementation = typeof(NNNode);
         }
 
